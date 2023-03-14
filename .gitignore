@@ -1,0 +1,58 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+.DS_Store
+src/frontend/.DS_Store
+src/frontend/node_modules
+src/frontend/dist
+
+
+# local env files
+src/frontend/.env.local
+src/frontend/.env.*.local
+
+# Log files
+src/frontend/npm-debug.log*
+src/frontend/yarn-debug.log*
+src/frontend/yarn-error.log*
+src/frontend/pnpm-debug.log*
+
+# Editor directories and files
+src/frontend/.idea
+src/frontend/.vscode
+src/frontend/*.suo
+src/frontend/*.ntvs*
+src/frontend/*.njsproj
+src/frontend/*.sln
+src/frontend/*.sw?
