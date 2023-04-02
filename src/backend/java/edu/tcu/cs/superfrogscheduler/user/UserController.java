@@ -1,2 +1,4 @@
-package backend.java.edu.tcu.cs.superfrogscheduler.user;public class UserController {
+package backend.java.edu.tcu.cs.superfrogscheduler.user;
+
+public class UserController {
 }

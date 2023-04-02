@@ -1,2 +1,4 @@
-package backend.java.edu.tcu.cs.superfrogscheduler.appearance;public class AppearanceController {
+package backend.java.edu.tcu.cs.superfrogscheduler.appearance;
+
+public class AppearanceController {
 }
