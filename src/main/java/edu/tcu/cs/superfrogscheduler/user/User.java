@@ -57,6 +57,16 @@ public class User {
 
     }
 
+    public User(String email, String phoneNumber, String password, String firstName, String lastName, String role, boolean active) {
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.active = active;
+    }
+
     public PaymentForm generatePaymentForm(List<Appearance> requests, Period paymentPeriod) {
         /**
          * Group the given requests by their event type (TCU, NONPROFIT, and PRIVATE), then for each event type, calculate the number of hours
