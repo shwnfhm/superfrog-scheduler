@@ -53,7 +53,6 @@ public class User {
     //true = activated, false = deactivated
     private boolean active;
 
-
     public User() {
 
     }

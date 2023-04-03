@@ -13,45 +13,61 @@ public class Appearance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //first name of the customer
     private String reqFirstName;
 
+    //last name of the customer
     private String reqLastName;
 
+    //phone number of the customer
     private String reqPhoneNumber;
 
+    //email of the customer
     private String reqEmail;
 
+    //type of appearance
+    //either non-profit, TCU or private
     private AppearanceType appearanceType;
 
+    //name of the event
     private String title;
 
+    //organization requesting the appearance
     private String orgName;
 
+    //address of appearance
     private String address;
 
+    //distance from campus
     private Double mileage;
 
+    //appearance date
     private LocalDate eventDate;
 
+    //appearance start time
     private LocalTime startTime;
 
+    //appearance end time
     private LocalTime endTime;
 
+    //status of the event
+    //either "PENDING",
     private AppearanceStatus status;
 
+    //appearance description, customer supplied
     private String desc;
 
+    //true if event is on campus, false otherwise
     private boolean onCampus;
 
+    //customer supplied instructions
     private String instructions;
 
+    //customer supplied benefits/expenses
     private String expenses;
 
+    //outside organizations sponsoring the appearance
     private String outsideOrg;
-
-    private String etime;
-
-    private String assignEmail;
 
     @ManyToOne
     private User assignedSuperFrog;
@@ -60,7 +76,7 @@ public class Appearance {
 
     }
 
-    public Appearance(Long id, String reqFirstName, String reqLastName, String reqPhoneNumber, String reqEmail, AppearanceType appearanceType, String title, String orgName, String address, Double mileage, LocalDate eventDate, LocalTime startTime, LocalTime endTime, AppearanceStatus status, String desc, boolean onCampus, String instructions, String expenses, String outsideOrg, String etime, String assignEmail, User assignedSuperFrog) {
+    public Appearance(Long id, String reqFirstName, String reqLastName, String reqPhoneNumber, String reqEmail, AppearanceType appearanceType, String title, String orgName, String address, Double mileage, LocalDate eventDate, LocalTime startTime, LocalTime endTime, AppearanceStatus status, String desc, boolean onCampus, String instructions, String expenses, String outsideOrg, User assignedSuperFrog) {
         this.id = id;
         this.reqFirstName = reqFirstName;
         this.reqLastName = reqLastName;
@@ -80,8 +96,6 @@ public class Appearance {
         this.instructions = instructions;
         this.expenses = expenses;
         this.outsideOrg = outsideOrg;
-        this.etime = etime;
-        this.assignEmail = assignEmail;
         this.assignedSuperFrog = assignedSuperFrog;
     }
 
@@ -239,22 +253,6 @@ public class Appearance {
 
     public void setOutsideOrg(String outsideOrg) {
         this.outsideOrg = outsideOrg;
-    }
-
-    public String getEtime() {
-        return etime;
-    }
-
-    public void setEtime(String etime) {
-        this.etime = etime;
-    }
-
-    public String getAssignEmail() {
-        return assignEmail;
-    }
-
-    public void setAssignEmail(String assignEmail) {
-        this.assignEmail = assignEmail;
     }
 
     public User getAssignedSuperFrog() {
