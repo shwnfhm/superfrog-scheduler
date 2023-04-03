@@ -76,8 +76,7 @@ public class Appearance {
 
     }
 
-    public Appearance(Long id, String reqFirstName, String reqLastName, String reqPhoneNumber, String reqEmail, AppearanceType appearanceType, String title, String orgName, String address, Double mileage, LocalDate eventDate, LocalTime startTime, LocalTime endTime, AppearanceStatus status, String desc, boolean onCampus, String instructions, String expenses, String outsideOrg, User assignedSuperFrog) {
-        this.id = id;
+    public Appearance(String reqFirstName, String reqLastName, String reqPhoneNumber, String reqEmail, AppearanceType appearanceType, String title, String orgName, String address, Double mileage, LocalDate eventDate, LocalTime startTime, LocalTime endTime, AppearanceStatus status, String desc, boolean onCampus, String instructions, String expenses, String outsideOrg, User assignedSuperFrog) {
         this.reqFirstName = reqFirstName;
         this.reqLastName = reqLastName;
         this.reqPhoneNumber = reqPhoneNumber;
