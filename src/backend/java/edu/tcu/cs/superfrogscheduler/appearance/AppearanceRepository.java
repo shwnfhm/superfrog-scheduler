@@ -9,4 +9,6 @@ import java.util.List;
 public interface AppearanceRepository extends JpaRepository<Appearance, Long> {
     public List<Appearance> findAllByStatus(String status);
     public List<Appearance> findAllByReqUserEmail(String email);
+
+    List<Appearance> findByRequestIdIn(List<Long> appearanceRequestIdList);
 }
