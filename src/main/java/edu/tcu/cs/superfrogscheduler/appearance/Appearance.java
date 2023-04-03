@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class Appearance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long requestId;
 
     //first name of the customer
     private String reqFirstName;
@@ -102,12 +102,12 @@ public class Appearance {
         return this.mileage.compareTo(freeMileage) <= 0 ? 0.0 : this.mileage - freeMileage;
     }
 
-    public Long getId() {
-        return id;
+    public Long getRequestId() {
+        return requestId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRequestId(Long requestId) {
+        this.requestId = requestId;
     }
 
     public String getReqFirstName() {

@@ -3,11 +3,13 @@ package edu.tcu.cs.superfrogscheduler.payment;
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceRepository;
 import edu.tcu.cs.superfrogscheduler.user.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
 public class PaymentService {
 
     private AppearanceRepository appearanceRepository;

@@ -43,7 +43,7 @@ public class AppearanceController {
         return "Success";
     }
 
-    @PutMapping("/{eventId}")
+    @PutMapping("/1/{eventId}")
     public String approveEvent(@PathVariable("eventId") Long eventId){
         Appearance appearanceToApprove = appearanceRepository.getOne(eventId);
         appearanceToApprove.setStatus(AppearanceStatus.APPROVED);
@@ -51,7 +51,7 @@ public class AppearanceController {
         return "Success";
     }
 
-    @PutMapping("/{eventId}")
+    @PutMapping("/2/{eventId}")
     public String rejectEvent(@PathVariable("eventId") Long eventId){
         Appearance appearanceToReject = appearanceRepository.getOne(eventId);
         appearanceToReject.setStatus(AppearanceStatus.REJECTED);
@@ -59,7 +59,7 @@ public class AppearanceController {
         return "Success";
     }
 
-    @PutMapping("/{eventId}")
+    @PutMapping("/3/{eventId}")
     public String assignEvent(@PathVariable("eventId") Long eventId, @PathVariable("frogId") Long frogId){
         Appearance appearanceToAssign = appearanceRepository.getOne(eventId);
         User frogToAssign = userRepository.getOne(frogId);
@@ -68,7 +68,7 @@ public class AppearanceController {
         return "Success";
     }
 
-    @PutMapping("/{eventId}")
+    @PutMapping("/4/{eventId}")
     public String unassignEvent(@PathVariable("eventId") Long eventId){
         Appearance appearanceToUnassign = appearanceRepository.getOne(eventId);
         appearanceToUnassign.setAssignedSuperFrog(null);
