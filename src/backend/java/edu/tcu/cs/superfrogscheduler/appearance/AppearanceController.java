@@ -3,9 +3,11 @@ package backend.java.edu.tcu.cs.superfrogscheduler.appearance;
 import backend.java.edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/appearance")
 public class AppearanceController {
 
     private AppearanceRepository appearanceRepository;

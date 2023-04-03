@@ -24,7 +24,7 @@ public class PaymentForm {
 
     private String lastName;
 
-    private Integer studentId;
+    private Long studentId;
 
     @Embedded
     private Period paymentPeriod;
@@ -36,7 +36,7 @@ public class PaymentForm {
 
     }
 
-    public PaymentForm(String firstName, String lastName, Integer studentId, Period paymentPeriod, BigDecimal amount) {
+    public PaymentForm(String firstName, String lastName, Long studentId, Period paymentPeriod, BigDecimal amount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.studentId = studentId;
@@ -52,7 +52,7 @@ public class PaymentForm {
         return lastName;
     }
 
-    public Integer getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 

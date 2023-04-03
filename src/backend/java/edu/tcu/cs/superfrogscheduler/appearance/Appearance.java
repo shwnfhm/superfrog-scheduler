@@ -1,5 +1,6 @@
 package backend.java.edu.tcu.cs.superfrogscheduler.appearance;
 
+import backend.java.edu.tcu.cs.superfrogscheduler.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -12,7 +13,19 @@ public class Appearance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String reqFirstName;
+
+    private String reqLastName;
+
+    private String reqPhoneNumber;
+
+    private String reqEmail;
+
     private AppearanceType appearanceType;
+
+    private String title;
+
+    private String orgName;
 
     private String address;
 
@@ -20,17 +33,13 @@ public class Appearance {
 
     private LocalDate eventDate;
 
-    private LocalTime eventTime;
+    private LocalTime startTime;
+
+    private LocalTime endTime;
 
     private AppearanceStatus status;
 
-    private String title;
-
     private String desc;
-
-    private String date;
-
-    private String orgName;
 
     private boolean onCampus;
 
@@ -40,38 +49,40 @@ public class Appearance {
 
     private String outsideOrg;
 
-    private String stime;
-
     private String etime;
 
-    private String reqEmail;
-
     private String assignEmail;
+
+    @ManyToOne
+    private User assignedSuperFrog;
 
     public Appearance() {
 
     }
 
-    public Appearance(Long id, AppearanceType appearanceType, String address, Double mileage, LocalDate eventDate, LocalTime eventTime, AppearanceStatus status, String title, String desc, String date, String orgName, boolean onCampus, String instructions, String expenses, String outsideOrg, String stime, String etime, String reqEmail, String assignEmail) {
+    public Appearance(Long id, String reqFirstName, String reqLastName, String reqPhoneNumber, String reqEmail, AppearanceType appearanceType, String title, String orgName, String address, Double mileage, LocalDate eventDate, LocalTime startTime, LocalTime endTime, AppearanceStatus status, String desc, boolean onCampus, String instructions, String expenses, String outsideOrg, String etime, String assignEmail, User assignedSuperFrog) {
         this.id = id;
+        this.reqFirstName = reqFirstName;
+        this.reqLastName = reqLastName;
+        this.reqPhoneNumber = reqPhoneNumber;
+        this.reqEmail = reqEmail;
         this.appearanceType = appearanceType;
+        this.title = title;
+        this.orgName = orgName;
         this.address = address;
         this.mileage = mileage;
         this.eventDate = eventDate;
-        this.eventTime = eventTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.status = status;
-        this.title = title;
         this.desc = desc;
-        this.date = date;
-        this.orgName = orgName;
         this.onCampus = onCampus;
         this.instructions = instructions;
         this.expenses = expenses;
         this.outsideOrg = outsideOrg;
-        this.stime = stime;
         this.etime = etime;
-        this.reqEmail = reqEmail;
         this.assignEmail = assignEmail;
+        this.assignedSuperFrog = assignedSuperFrog;
     }
 
     public Double getMileageOver(Double freeMileage) {
@@ -86,12 +97,60 @@ public class Appearance {
         this.id = id;
     }
 
+    public String getReqFirstName() {
+        return reqFirstName;
+    }
+
+    public void setReqFirstName(String reqFirstName) {
+        this.reqFirstName = reqFirstName;
+    }
+
+    public String getReqLastName() {
+        return reqLastName;
+    }
+
+    public void setReqLastName(String reqLastName) {
+        this.reqLastName = reqLastName;
+    }
+
+    public String getReqPhoneNumber() {
+        return reqPhoneNumber;
+    }
+
+    public void setReqPhoneNumber(String reqPhoneNumber) {
+        this.reqPhoneNumber = reqPhoneNumber;
+    }
+
+    public String getReqEmail() {
+        return reqEmail;
+    }
+
+    public void setReqEmail(String reqEmail) {
+        this.reqEmail = reqEmail;
+    }
+
     public AppearanceType getAppearanceType() {
         return appearanceType;
     }
 
     public void setAppearanceType(AppearanceType appearanceType) {
         this.appearanceType = appearanceType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
     }
 
     public String getAddress() {
@@ -118,12 +177,20 @@ public class Appearance {
         this.eventDate = eventDate;
     }
 
-    public LocalTime getEventTime() {
-        return eventTime;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
-    public void setEventTime(LocalTime eventTime) {
-        this.eventTime = eventTime;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public AppearanceStatus getStatus() {
@@ -134,36 +201,12 @@ public class Appearance {
         this.status = status;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDesc() {
         return desc;
     }
 
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getOrgName() {
-        return orgName;
-    }
-
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
     }
 
     public boolean isOnCampus() {
@@ -198,14 +241,6 @@ public class Appearance {
         this.outsideOrg = outsideOrg;
     }
 
-    public String getStime() {
-        return stime;
-    }
-
-    public void setStime(String stime) {
-        this.stime = stime;
-    }
-
     public String getEtime() {
         return etime;
     }
@@ -214,19 +249,19 @@ public class Appearance {
         this.etime = etime;
     }
 
-    public String getReqEmail() {
-        return reqEmail;
-    }
-
-    public void setReqEmail(String reqEmail) {
-        this.reqEmail = reqEmail;
-    }
-
     public String getAssignEmail() {
         return assignEmail;
     }
 
     public void setAssignEmail(String assignEmail) {
         this.assignEmail = assignEmail;
+    }
+
+    public User getAssignedSuperFrog() {
+        return assignedSuperFrog;
+    }
+
+    public void setAssignedSuperFrog(User assignedSuperFrog) {
+        this.assignedSuperFrog = assignedSuperFrog;
     }
 }
