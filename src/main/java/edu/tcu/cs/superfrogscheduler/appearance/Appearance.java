@@ -1,5 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.tcu.cs.superfrogscheduler.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,7 +11,8 @@ import java.time.LocalTime;
 import java.io.Serializable;
 
 @Entity
-public class Appearance {
+@Table(name = "appearances")
+public class Appearance implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long requestId;
@@ -33,7 +35,6 @@ public class Appearance {
 
     //type of appearance
     //either non-profit, TCU or private
-    @NotEmpty(message = "Appearance type is required")
     private AppearanceType appearanceType;
 
     //name of the event
@@ -69,7 +70,6 @@ public class Appearance {
     private String desc;
 
     //true if event is on campus, false otherwise
-    @NotEmpty(message = "On campus is required")
     private boolean onCampus;
 
     //customer supplied instructions
@@ -89,28 +89,6 @@ public class Appearance {
 
     public Appearance() {
 
-    }
-
-    public Appearance(String reqFirstName, String reqLastName, String reqPhoneNumber, String reqEmail, AppearanceType appearanceType, String title, String orgName, String address, Double mileage, LocalDate eventDate, LocalTime startTime, LocalTime endTime, AppearanceStatus status, String desc, boolean onCampus, String instructions, String expenses, String outsideOrg, User assignedSuperFrog) {
-        this.reqFirstName = reqFirstName;
-        this.reqLastName = reqLastName;
-        this.reqPhoneNumber = reqPhoneNumber;
-        this.reqEmail = reqEmail;
-        this.appearanceType = appearanceType;
-        this.title = title;
-        this.orgName = orgName;
-        this.address = address;
-        this.mileage = mileage;
-        this.eventDate = eventDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = status;
-        this.desc = desc;
-        this.onCampus = onCampus;
-        this.instructions = instructions;
-        this.expenses = expenses;
-        this.outsideOrg = outsideOrg;
-        this.assignedSuperFrog = assignedSuperFrog;
     }
 
     public Double getMileageOver(Double freeMileage) {

@@ -22,6 +22,7 @@ public class PaymentService {
         this.paymentFormRepository = paymentFormRepository;
     }
 
+
     public List<PaymentForm> generatePaymentForms(List<Long> appearanceRequestIdList, Period paymentPeriod) {
         List<Appearance> selectedRequests = this.appearanceRepository.findByRequestIdIn(appearanceRequestIdList);
 

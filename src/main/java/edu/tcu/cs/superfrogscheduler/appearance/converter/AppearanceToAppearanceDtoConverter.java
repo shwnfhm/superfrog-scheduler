@@ -5,13 +5,23 @@ import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceType;
 import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
 import edu.tcu.cs.superfrogscheduler.user.User;
+import edu.tcu.cs.superfrogscheduler.user.converter.UserToUserDtoConverter;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Component
 public class AppearanceToAppearanceDtoConverter implements Converter<Appearance, AppearanceDto> {
+
+    private final UserToUserDtoConverter userToUserDtoConverter;
+
+    public AppearanceToAppearanceDtoConverter(UserToUserDtoConverter userToUserDtoConverter) {
+        this.userToUserDtoConverter = userToUserDtoConverter;
+    }
+
     @Override
     public AppearanceDto convert(Appearance source) {
         final AppearanceDto appearanceDto = new AppearanceDto(
@@ -34,7 +44,9 @@ public class AppearanceToAppearanceDtoConverter implements Converter<Appearance,
                 source.getInstructions(),
                 source.getExpenses(),
                 source.getOutsideOrg(),
-                source.getAssignedSuperFrog()
+                source.getAssignedSuperFrog() != null
+                        ? this.userToUserDtoConverter.convert(source.getAssignedSuperFrog())
+                        : null
         );
         return appearanceDto;
     }

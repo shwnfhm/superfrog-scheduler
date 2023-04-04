@@ -3,9 +3,11 @@ package edu.tcu.cs.superfrogscheduler.appearance.converter;
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
 import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Component
 public class AppearanceDtoToAppearanceConverter implements Converter<AppearanceDto, Appearance> {
     @Override
     public Appearance convert(AppearanceDto source) {
@@ -15,7 +17,7 @@ public class AppearanceDtoToAppearanceConverter implements Converter<AppearanceD
         converted.setDesc(source.desc());
         converted.setRequestId(source.requestId());
         converted.setStatus(source.status());
-        converted.setAssignedSuperFrog(source.assignedSuperFrog());
+        converted.setAppearanceType(source.appearanceType());
         converted.setExpenses(source.expenses());
         converted.setMileage(source.mileage());
         converted.setEndTime(source.endTime());
@@ -28,6 +30,8 @@ public class AppearanceDtoToAppearanceConverter implements Converter<AppearanceD
         converted.setReqLastName(source.reqLastName());
         converted.setReqEmail(source.reqEmail());
         converted.setReqPhoneNumber(source.reqPhoneNumber());
+        converted.setOrgName(source.orgName());
+        converted.setOutsideOrg(source.outsideOrg());
         return converted;
     }
 }

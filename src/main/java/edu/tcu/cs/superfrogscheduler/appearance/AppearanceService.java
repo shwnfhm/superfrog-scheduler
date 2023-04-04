@@ -9,10 +9,12 @@ public class AppearanceService {
 
     private final AppearanceRepository appearanceRepository;
 
-
     public AppearanceService(AppearanceRepository appearanceRepository) {
         this.appearanceRepository = appearanceRepository;
     }
 
+    public Appearance save(Appearance newAppearance){
+        return this.appearanceRepository.save(newAppearance);
+    }
 
 }

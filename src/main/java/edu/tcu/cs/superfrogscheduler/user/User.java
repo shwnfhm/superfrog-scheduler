@@ -69,6 +69,7 @@ public class User implements Serializable {
         this.active = active;
     }
 
+
     public PaymentForm generatePaymentForm(List<Appearance> requests, Period paymentPeriod) {
         /**
          * Group the given requests by their event type (TCU, NONPROFIT, and PRIVATE), then for each event type, calculate the number of hours
@@ -77,7 +78,7 @@ public class User implements Serializable {
          *  EventType.TCU -> 2.5 hrs
          *  EventType.NONPROFIT -> 3 hrs
          *  EventType.PRIVATE -> 2 hrs
-         */
+        */
         Map<AppearanceType, Double> eventTypeHoursMap = requests.stream().collect(Collectors.groupingBy(request -> request.getAppearanceType(),
                 Collectors.mapping(request -> request.getStartTime().until(request.getEndTime(), ChronoUnit.MINUTES) / 60.0,
                         Collectors.reducing(0.0, Double::sum))));
