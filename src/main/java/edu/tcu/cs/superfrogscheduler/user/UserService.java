@@ -51,12 +51,4 @@ public class UserService {
         return this.userRepository.save(oldUser);
     }
 
-    public void updateById(Long userID, String email, String firstName, String lastName, String phoneNumber) {
-        User user = userRepository.getOne(userID);
-        user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setPhoneNumber(phoneNumber);
-        userRepository.save(user);
-    }
 }
