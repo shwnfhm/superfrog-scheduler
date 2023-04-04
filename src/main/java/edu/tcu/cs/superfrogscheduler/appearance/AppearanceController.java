@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/appearances")
@@ -33,60 +35,34 @@ public class AppearanceController {
     @PostMapping
     public Result addRequest(@Valid @RequestBody AppearanceDto req){
         Appearance newAppearance = this.appearanceDtoToAppearanceConverter.convert(req);
-        System.out.println(newAppearance.getAppearanceType());
-        System.out.println(newAppearance.getStatus());
-        System.out.println(newAppearance.getEventDate());
-        System.out.println(newAppearance.getStartTime());
-        System.out.println(newAppearance.getEndTime());
-        System.out.println(newAppearance.getAssignedSuperFrog());
         Appearance savedNewAppearance = this.appearanceService.save(newAppearance);
         AppearanceDto savedNewAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(savedNewAppearance);
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedNewAppearanceDto);
     }
 
-    @PutMapping("/1/{eventId}")
-    public String approveEvent(@PathVariable("eventId") Long eventId){
-        /*
-        Appearance appearanceToApprove = appearanceRepository.getOne(eventId);
-        appearanceToApprove.setStatus(AppearanceStatus.APPROVED);
-        appearanceRepository.save(appearanceToApprove);
-
-         */
-        return "Success";
+    @GetMapping
+    public Result findAllAppearances(){
+        List<Appearance> foundAppearances = this.appearanceService.findAll();
+        // Convert foundArtifacts to a list of artifactDtos
+        List<AppearanceDto> appearanceDtos = foundAppearances.stream()
+                .map(this.appearanceToAppearanceDtoConverter::convert)
+                .collect(Collectors.toList());
+        return new Result(true, StatusCode.SUCCESS, "Find All Success", appearanceDtos);
     }
 
-    @PutMapping("/2/{eventId}")
-    public String rejectEvent(@PathVariable("eventId") Long eventId){
-        /*
-        Appearance appearanceToReject = appearanceRepository.getOne(eventId);
-        appearanceToReject.setStatus(AppearanceStatus.REJECTED);
-        appearanceRepository.save(appearanceToReject);
-
-         */
-        return "Success";
+    @GetMapping("/{requestId}")
+    public Result findArtifactById(@PathVariable Long requestId){
+        Appearance foundAppearance = this.appearanceService.findById(requestId);
+        AppearanceDto appearanceDto = this.appearanceToAppearanceDtoConverter.convert(foundAppearance);
+        return new Result(true, StatusCode.SUCCESS, "Find One Success", appearanceDto);
     }
 
-    @PutMapping("/3/{eventId}")
-    public String assignEvent(@PathVariable("eventId") Long eventId, @PathVariable("frogId") Long frogId){
-        /*
-        Appearance appearanceToAssign = appearanceRepository.getOne(eventId);
-        User frogToAssign = userRepository.getOne(frogId);
-        appearanceToAssign.setAssignedSuperFrog(frogToAssign);
-        appearanceRepository.save(appearanceToAssign);
-
-         */
-        return "Success";
-    }
-
-    @PutMapping("/4/{eventId}")
-    public String unassignEvent(@PathVariable("eventId") Long eventId){
-        /*
-        Appearance appearanceToUnassign = appearanceRepository.getOne(eventId);
-        appearanceToUnassign.setAssignedSuperFrog(null);
-        appearanceRepository.save(appearanceToUnassign);
-
-         */
-        return "Success";
+    @PutMapping("/{requestId}")
+    public Result updateArtifact(@PathVariable Long requestId, @Valid @RequestBody AppearanceDto appearanceDto){
+        Appearance update = this.appearanceDtoToAppearanceConverter.convert(appearanceDto);
+        Appearance updatedAppearance = this.appearanceService.update(requestId, update);
+        AppearanceDto updatedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(updatedAppearance);
+        return new Result(true, StatusCode.SUCCESS, "Update Success", updatedAppearanceDto);
     }
 
 }
