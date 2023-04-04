@@ -8,6 +8,7 @@ import edu.tcu.cs.superfrogscheduler.payment.TransportationFeeCalculator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -16,17 +17,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import java.io.Serializable;
+
 @Entity
-@Table(name = "Users", uniqueConstraints = {@UniqueConstraint(columnNames = "Email")})
-public class User {
+@Table(name = "users")
+public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     //user's email address
-    @NotBlank
-    @Size(max = 50)
+    @NotEmpty(message = "Email is required.")
     @Email
     private String email;
 
@@ -34,8 +36,7 @@ public class User {
     private String phoneNumber;
 
     //user's password
-    @NotBlank
-    @Size(max = 40)
+    @NotEmpty(message = "Password is required.")
     private String password;
 
     //user's first name
@@ -48,7 +49,8 @@ public class User {
 
     //used to indicate whether a SuperFrog Student, SpiritDirector
     //or customer. {"SUPERFROG", "SPIRITDIRECTOR"}
-    private String role;
+    @NotEmpty(message = "Roles are required")
+    private String roles;
 
     //true = activated, false = deactivated
     private boolean active;
@@ -57,13 +59,13 @@ public class User {
 
     }
 
-    public User(String email, String phoneNumber, String password, String firstName, String lastName, String role, boolean active) {
+    public User(String email, String phoneNumber, String password, String firstName, String lastName, String roles, boolean active) {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.role = role;
+        this.roles = roles;
         this.active = active;
     }
 
@@ -145,12 +147,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public boolean isActive() {

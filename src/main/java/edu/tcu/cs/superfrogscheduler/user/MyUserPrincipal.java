@@ -22,7 +22,7 @@ public class MyUserPrincipal implements UserDetails {
         // Convert a user's roles from space-delimited string to a list of SimpleGrantedAuthority objects.
         // E.g., john's roles are stored in a string like "admin user moderator", we need to convert it to a list of GrantedAuthority.
         // Before conversion, we need to add this "ROLE_" prefix to each role name.
-        return Arrays.stream(StringUtils.tokenizeToStringArray(this.user.getRole(), " "))
+        return Arrays.stream(StringUtils.tokenizeToStringArray(this.user.getRoles(), " "))
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .toList();
     }

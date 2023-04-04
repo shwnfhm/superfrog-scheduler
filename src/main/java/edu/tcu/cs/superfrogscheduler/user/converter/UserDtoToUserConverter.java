@@ -8,6 +8,14 @@ import org.springframework.stereotype.Component;
 public class UserDtoToUserConverter implements Converter<UserDto, User>{
     @Override
     public User convert(UserDto source) {
-        return null;
+        User converted = new User();
+        converted.setEmail(source.email());
+        converted.setRoles(source.roles());
+        converted.setId(source.id());
+        converted.setFirstName(source.firstName());
+        converted.setLastName(source.lastName());
+        converted.setActive(source.active());
+        converted.setPhoneNumber(source.phoneNumber());
+        return converted;
     }
 }

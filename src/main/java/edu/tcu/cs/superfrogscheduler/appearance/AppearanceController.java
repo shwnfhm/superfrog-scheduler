@@ -17,29 +17,8 @@ public class AppearanceController {
     private UserRepository userRepository;
 
     @PostMapping
-    public String addRequest(String reqFirstName, String reqLastName, String reqPhoneNumber, String reqEmail, AppearanceType appearanceType, String title, String orgName, String address, Double mileage, LocalDate eventDate, LocalTime startTime, LocalTime endTime, String desc, boolean onCampus, String instructions, String expenses, String outsideOrg) {
-        Appearance request = new Appearance(
-                reqFirstName,
-                reqLastName,
-                reqPhoneNumber,
-                reqEmail,
-                appearanceType,
-                title,
-                address,
-                orgName,
-                mileage,
-                eventDate,
-                startTime,
-                endTime,
-                AppearanceStatus.PENDING,
-                desc,
-                onCampus,
-                instructions,
-                expenses,
-                outsideOrg,
-                null
-        );
-        appearanceRepository.save(request);
+    public String addRequest(@RequestBody Appearance req){
+        appearanceRepository.save(req);
         return "Success";
     }
 

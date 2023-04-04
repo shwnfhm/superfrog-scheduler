@@ -2,31 +2,38 @@ package edu.tcu.cs.superfrogscheduler.appearance;
 
 import edu.tcu.cs.superfrogscheduler.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import java.io.Serializable;
+
 @Entity
-@Table(name = "Appearances")
 public class Appearance {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long requestId;
 
     //first name of the customer
+    @NotEmpty(message = "First name is required")
     private String reqFirstName;
 
     //last name of the customer
+    @NotEmpty(message = "Last name is required")
     private String reqLastName;
 
     //phone number of the customer
+    @NotEmpty(message = "Customer phone number is required")
     private String reqPhoneNumber;
 
     //email of the customer
+    @NotEmpty(message = "Customer email is required")
     private String reqEmail;
 
     //type of appearance
     //either non-profit, TCU or private
+    @NotEmpty(message = "Appearance type is required")
     private AppearanceType appearanceType;
 
     //name of the event
