@@ -6,5 +6,6 @@ public enum AppearanceStatus {
     REJECTED,
     ASSIGNED,
     FINISHED,
-    CANCELLED
+    CANCELLED,
+    PAYROLL
 }
