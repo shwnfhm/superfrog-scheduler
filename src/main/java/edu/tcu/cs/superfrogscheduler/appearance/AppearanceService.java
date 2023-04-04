@@ -1,6 +1,5 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
-import edu.tcu.cs.superfrogscheduler.system.IdWorker;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,4 +13,6 @@ public class AppearanceService {
         this.appearanceRepository = appearanceRepository;
         this.idWorker = idWorker;
     }
+
+
 }
