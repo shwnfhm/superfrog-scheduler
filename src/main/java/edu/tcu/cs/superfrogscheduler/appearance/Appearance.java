@@ -37,12 +37,15 @@ public class Appearance {
     private AppearanceType appearanceType;
 
     //name of the event
+    @NotEmpty(message = "Event title is required")
     private String title;
 
     //organization requesting the appearance
+    @NotEmpty(message = "Org name is required")
     private String orgName;
 
     //address of appearance
+    @NotEmpty(message = "Address is required")
     private String address;
 
     //distance from campus
@@ -62,18 +65,23 @@ public class Appearance {
     private AppearanceStatus status;
 
     //appearance description, customer supplied
+    @NotEmpty(message = "Description is required")
     private String desc;
 
     //true if event is on campus, false otherwise
+    @NotEmpty(message = "On campus is required")
     private boolean onCampus;
 
     //customer supplied instructions
+    @NotEmpty(message = "Instructions are required")
     private String instructions;
 
     //customer supplied benefits/expenses
+    @NotEmpty(message = "Expenses/benefits required")
     private String expenses;
 
     //outside organizations sponsoring the appearance
+    @NotEmpty(message = "Outside org required")
     private String outsideOrg;
 
     @ManyToOne

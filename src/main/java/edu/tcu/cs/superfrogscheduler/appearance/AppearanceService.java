@@ -1,17 +1,17 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class AppearanceService {
 
     private final AppearanceRepository appearanceRepository;
 
-    private final IdWorker idWorker;
 
-    public AppearanceService(AppearanceRepository appearanceRepository, IdWorker idWorker) {
+    public AppearanceService(AppearanceRepository appearanceRepository) {
         this.appearanceRepository = appearanceRepository;
-        this.idWorker = idWorker;
     }
 
 
