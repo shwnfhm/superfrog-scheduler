@@ -10,7 +10,6 @@ public class Period {
 
     private LocalDate endDate;
 
-
     public Period() {
     }
 

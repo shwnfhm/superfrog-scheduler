@@ -9,7 +9,6 @@ public class RequestIds {
 
     private Period paymentPeriod;
 
-
     public RequestIds() {
 
     }
