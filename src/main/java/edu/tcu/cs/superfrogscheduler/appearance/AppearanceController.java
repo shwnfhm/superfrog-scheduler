@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @RestController
-@RequestMapping("${api.endpoint.base-url}/appearance")
+@RequestMapping("${api.endpoint.base-url}/appearances")
 public class AppearanceController {
 
     private AppearanceRepository appearanceRepository;
