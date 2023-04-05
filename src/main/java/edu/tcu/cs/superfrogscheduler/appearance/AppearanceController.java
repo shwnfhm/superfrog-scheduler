@@ -8,6 +8,8 @@ import edu.tcu.cs.superfrogscheduler.system.StatusCode;
 import edu.tcu.cs.superfrogscheduler.user.User;
 import edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import jakarta.validation.Valid;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +24,15 @@ public class AppearanceController {
 
     private AppearanceService appearanceService;
 
+    private final JavaMailSender javaMailSender;
+
     private AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter;
 
     private AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter;
 
-    public AppearanceController(AppearanceService appearanceService, AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter, AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter) {
+    public AppearanceController(AppearanceService appearanceService, JavaMailSender javaMailSender, AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter, AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter) {
         this.appearanceService = appearanceService;
+        this.javaMailSender = javaMailSender;
         this.appearanceDtoToAppearanceConverter = appearanceDtoToAppearanceConverter;
         this.appearanceToAppearanceDtoConverter = appearanceToAppearanceDtoConverter;
     }
@@ -37,6 +42,14 @@ public class AppearanceController {
         Appearance newAppearance = this.appearanceDtoToAppearanceConverter.convert(req);
         Appearance savedNewAppearance = this.appearanceService.save(newAppearance);
         AppearanceDto savedNewAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(savedNewAppearance);
+        SimpleMailMessage assignMail = new SimpleMailMessage();
+        assignMail.setTo(savedNewAppearance.getReqEmail());
+        assignMail.setFrom("superfrogschedulercite30363@gmail.com");
+        assignMail.setSubject("SuperFrog Assigned");
+        assignMail.setText("Dear Customer," + "\n" + "We are glad to inform you that your request has been submitted. \n"
+                + "Your request will be reviewed and a SuperFrog will be assigned if approved\n" +
+                "Thank you!");
+        javaMailSender.send(assignMail);
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedNewAppearanceDto);
     }
 

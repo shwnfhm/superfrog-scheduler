@@ -6,6 +6,17 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     show-sql: true
+  mail:
+    host: smtp.gmail.com
+    username: superfrogschedulercite30363@gmail.com
+    password: zzuwrkyoagozucwl
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 api:
   endpoint:
     base-url: /api/v1
