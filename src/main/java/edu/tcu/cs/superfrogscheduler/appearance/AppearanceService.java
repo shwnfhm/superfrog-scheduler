@@ -1,6 +1,7 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
+import edu.tcu.cs.superfrogscheduler.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,24 @@ public class AppearanceService {
                     oldAppearance.setReqPhoneNumber(update.getReqPhoneNumber());
                     oldAppearance.setOrgName(update.getOrgName());
                     oldAppearance.setOutsideOrg(update.getOutsideOrg());
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
+    public Appearance assign(Long requestId, User assignee){
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setAssignedSuperFrog(assignee);
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
+    public Appearance unassign(Long requestId){
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setAssignedSuperFrog(null);
                     return this.appearanceRepository.save(oldAppearance);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));

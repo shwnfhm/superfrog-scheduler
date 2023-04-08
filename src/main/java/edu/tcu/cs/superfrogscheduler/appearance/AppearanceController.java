@@ -7,6 +7,8 @@ import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
 import edu.tcu.cs.superfrogscheduler.user.User;
 import edu.tcu.cs.superfrogscheduler.user.UserRepository;
+import edu.tcu.cs.superfrogscheduler.user.converter.UserDtoToUserConverter;
+import edu.tcu.cs.superfrogscheduler.user.dto.UserDto;
 import jakarta.validation.Valid;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,12 +31,14 @@ public class AppearanceController {
     private AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter;
 
     private AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter;
+    private UserDtoToUserConverter userDtoToUserConverter;
 
-    public AppearanceController(AppearanceService appearanceService, JavaMailSender javaMailSender, AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter, AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter) {
+    public AppearanceController(AppearanceService appearanceService, JavaMailSender javaMailSender, AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter, AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter, UserDtoToUserConverter userDtoToUserConverter) {
         this.appearanceService = appearanceService;
         this.javaMailSender = javaMailSender;
         this.appearanceDtoToAppearanceConverter = appearanceDtoToAppearanceConverter;
         this.appearanceToAppearanceDtoConverter = appearanceToAppearanceDtoConverter;
+        this.userDtoToUserConverter = userDtoToUserConverter;
     }
 
     @PostMapping
@@ -76,6 +80,19 @@ public class AppearanceController {
         Appearance updatedAppearance = this.appearanceService.update(requestId, update);
         AppearanceDto updatedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(updatedAppearance);
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedAppearanceDto);
+    }
+    
+    @PostMapping("/{requestId}/user")
+    public Result assignUserToAppearance(@PathVariable Long requestId, @Valid @RequestBody UserDto assigneeDto){
+        User assignee = this.userDtoToUserConverter.convert(assigneeDto);
+        Appearance updatedAppearance = this.appearanceService.assign(requestId, assignee);
+        return new Result(true, StatusCode.SUCCESS, "Assignment Successful", updatedAppearance);
+    }
+
+    @DeleteMapping("/{requestId}/user")
+    public Result removeUserFromAppearance(@PathVariable Long requestId){
+        Appearance updatedAppearance = this.appearanceService.unassign(requestId);
+        return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
     }
 
 }
