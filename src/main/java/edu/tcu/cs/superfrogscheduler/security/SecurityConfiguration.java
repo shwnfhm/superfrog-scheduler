@@ -67,9 +67,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").permitAll() // Protect the endpoint.
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").permitAll() // Protect the endpoint.
-                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_admin") // Protect the endpoint.
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").permitAll() // Protect the endpoint.
                         .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_admin") // Protect the endpoint.
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll() // Explicitly fallback to antMatcher inside requestMatchers.
                         // Disallow everything else.

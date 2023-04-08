@@ -34,7 +34,7 @@ public class AppearanceService {
                 .map(oldAppearance -> {
                     oldAppearance.setAddress(update.getAddress());
                     oldAppearance.setDesc(update.getDesc());
-                    oldAppearance.setRequestId(update.getRequestId());
+                    oldAppearance.setRequestId(requestId);
                     oldAppearance.setStatus(update.getStatus());
                     oldAppearance.setAppearanceType(update.getAppearanceType());
                     oldAppearance.setExpenses(update.getExpenses());
