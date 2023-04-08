@@ -64,14 +64,14 @@ public class AppearanceController {
     }
 
     @GetMapping("/{requestId}")
-    public Result findArtifactById(@PathVariable Long requestId){
+    public Result findAppearanceById(@PathVariable Long requestId){
         Appearance foundAppearance = this.appearanceService.findById(requestId);
         AppearanceDto appearanceDto = this.appearanceToAppearanceDtoConverter.convert(foundAppearance);
         return new Result(true, StatusCode.SUCCESS, "Find One Success", appearanceDto);
     }
 
     @PutMapping("/{requestId}")
-    public Result updateArtifact(@PathVariable Long requestId, @Valid @RequestBody AppearanceDto appearanceDto){
+    public Result updateAppearance(@PathVariable Long requestId, @Valid @RequestBody AppearanceDto appearanceDto){
         Appearance update = this.appearanceDtoToAppearanceConverter.convert(appearanceDto);
         Appearance updatedAppearance = this.appearanceService.update(requestId, update);
         AppearanceDto updatedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(updatedAppearance);

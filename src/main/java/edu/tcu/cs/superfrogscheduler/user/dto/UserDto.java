@@ -1,5 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.user.dto;
 
+import edu.tcu.cs.superfrogscheduler.user.PaymentPreference;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -18,5 +19,10 @@ public record UserDto(
 
         @NotEmpty(message = "Roles are required")
         String roles,
-        boolean active) {
+        boolean active,
+
+        boolean international,
+
+        PaymentPreference paymentPreference
+) {
 }

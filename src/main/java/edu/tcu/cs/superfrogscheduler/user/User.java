@@ -55,20 +55,14 @@ public class User implements Serializable {
     //true = activated, false = deactivated
     private boolean active;
 
+    //false = domestic, true = international student
+    private boolean international;
+
+    private PaymentPreference paymentPreference;
+
     public User() {
 
     }
-
-    public User(String email, String phoneNumber, String password, String firstName, String lastName, String roles, boolean active) {
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.roles = roles;
-        this.active = active;
-    }
-
 
     public PaymentForm generatePaymentForm(List<Appearance> requests, Period paymentPeriod) {
         /**
@@ -162,5 +156,21 @@ public class User implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isInternational() {
+        return international;
+    }
+
+    public void setInternational(boolean international) {
+        this.international = international;
+    }
+
+    public PaymentPreference getPaymentPreference() {
+        return paymentPreference;
+    }
+
+    public void setPaymentPreference(PaymentPreference paymentPreference) {
+        this.paymentPreference = paymentPreference;
     }
 }

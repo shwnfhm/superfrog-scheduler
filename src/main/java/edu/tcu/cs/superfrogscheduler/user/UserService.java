@@ -2,6 +2,9 @@ package edu.tcu.cs.superfrogscheduler.user;
 
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -48,7 +51,15 @@ public class UserService {
         oldUser.setEmail(update.getEmail());
         oldUser.setActive(update.isActive());
         oldUser.setRoles(update.getRoles());
+        oldUser.setInternational(update.isInternational());
+        oldUser.setPaymentPreference(update.getPaymentPreference());
         return this.userRepository.save(oldUser);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository.findByUsername(username) // First, we need to find this user from database.
+                .map(user -> new MyUserPrincipal(user)) // If found, wrap the returned user instance in a MyUserPrincipal instance.
+                .orElseThrow(() -> new UsernameNotFoundException("username " + username + " is not found.")); // Otherwise, throw an exception.
+    }
 }

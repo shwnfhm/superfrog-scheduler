@@ -16,7 +16,9 @@ public class UserToUserDtoConverter implements Converter<User, UserDto> {
                                             source.getFirstName(),
                                             source.getLastName(),
                                             source.getRoles(),
-                                            source.isActive());
+                                            source.isActive(),
+                                            source.isInternational(),
+                                            source.getPaymentPreference());
         return userDto;
     }
 }

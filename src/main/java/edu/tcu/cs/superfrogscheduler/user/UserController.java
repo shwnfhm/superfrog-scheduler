@@ -6,6 +6,8 @@ import edu.tcu.cs.superfrogscheduler.user.converter.UserDtoToUserConverter;
 import edu.tcu.cs.superfrogscheduler.user.converter.UserToUserDtoConverter;
 import edu.tcu.cs.superfrogscheduler.user.dto.UserDto;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,6 +65,5 @@ public class UserController {
         UserDto updatedUserDto = this.userToUserDtoConverter.convert(updatedUser);
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedUserDto);
     }
-
 
 }
