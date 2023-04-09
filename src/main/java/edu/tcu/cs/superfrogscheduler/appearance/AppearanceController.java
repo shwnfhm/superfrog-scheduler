@@ -55,7 +55,7 @@ public class AppearanceController {
         SimpleMailMessage assignMail = new SimpleMailMessage();
         assignMail.setTo(savedNewAppearance.getReqEmail());
         assignMail.setFrom("superfrogschedulercite30363@gmail.com");
-        assignMail.setSubject("SuperFrog Assigned");
+        assignMail.setSubject("SuperFrog Request Received");
         assignMail.setText("Dear Customer," + "\n" + "We are glad to inform you that your request has been submitted. \n"
                 + "Your request will be reviewed and a SuperFrog will be assigned if approved\n" +
                 "Thank you!");
@@ -92,12 +92,28 @@ public class AppearanceController {
     public Result assignUserToAppearance(@PathVariable Long requestId, @Valid @RequestBody UserDto assigneeDto){
         User assignee = this.userDtoToUserConverter.convert(assigneeDto);
         Appearance updatedAppearance = this.appearanceService.assign(requestId, assignee);
+        SimpleMailMessage assignMail = new SimpleMailMessage();
+        assignMail.setTo(updatedAppearance.getReqEmail());
+        assignMail.setFrom("superfrogschedulercite30363@gmail.com");
+        assignMail.setSubject("SuperFrog Assigned");
+        assignMail.setText("Dear Customer," + "\n" + "We are glad to inform you that a SuperFrog has been assigned to your event \n"
+                + "Please submit payment if you have not already\n" +
+                "Thank you!");
+        javaMailSender.send(assignMail);
         return new Result(true, StatusCode.SUCCESS, "Assignment Successful", updatedAppearance);
     }
 
     @DeleteMapping("/{requestId}/user")
     public Result removeUserFromAppearance(@PathVariable Long requestId){
         Appearance updatedAppearance = this.appearanceService.unassign(requestId);
+        SimpleMailMessage assignMail = new SimpleMailMessage();
+        assignMail.setTo(updatedAppearance.getReqEmail());
+        assignMail.setFrom("superfrogschedulercite30363@gmail.com");
+        assignMail.setSubject("SuperFrog Unassigned");
+        assignMail.setText("Dear Customer," + "\n" + "We regret to inform you that the SuperFrog assigned to your event has been removed \n"
+                + "We will try to assign a replacement as soon as possible\n" +
+                "Thank you for your patience");
+        javaMailSender.send(assignMail);
         return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
     }
 
