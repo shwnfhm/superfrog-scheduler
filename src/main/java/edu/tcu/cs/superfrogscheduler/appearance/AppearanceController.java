@@ -9,14 +9,20 @@ import edu.tcu.cs.superfrogscheduler.user.User;
 import edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import edu.tcu.cs.superfrogscheduler.user.converter.UserDtoToUserConverter;
 import edu.tcu.cs.superfrogscheduler.user.dto.UserDto;
+import edu.tcu.cs.superfrogscheduler.appearance.export.ExcelExporter;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,6 +99,23 @@ public class AppearanceController {
     public Result removeUserFromAppearance(@PathVariable Long requestId){
         Appearance updatedAppearance = this.appearanceService.unassign(requestId);
         return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
+    }
+
+    @GetMapping("/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<Appearance> listAppearances = appearanceService.findAll();
+
+        ExcelExporter excelExporter = new ExcelExporter(listAppearances);
+
+        excelExporter.export(response);
     }
 
 }

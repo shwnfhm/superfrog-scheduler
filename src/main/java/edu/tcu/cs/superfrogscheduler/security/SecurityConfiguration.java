@@ -69,6 +69,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/appearances/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").permitAll()
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").permitAll() // Protect the endpoint.
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").permitAll() // Protect the endpoint.
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").permitAll() // Protect the endpoint.
