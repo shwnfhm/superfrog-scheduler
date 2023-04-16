@@ -75,4 +75,22 @@ public class AppearanceService {
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
     }
 
+    public Appearance approve(Long requestId){
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setStatus(AppearanceStatus.APPROVED);
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
+    public Appearance reject(Long requestId){
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setStatus(AppearanceStatus.REJECTED);
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
 }
