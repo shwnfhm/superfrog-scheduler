@@ -48,7 +48,7 @@ public class User implements Serializable {
     private String lastName;
 
     //used to indicate whether a SuperFrog Student, SpiritDirector
-    //or customer. {"SUPERFROG", "SPIRITDIRECTOR"}
+    //{"SUPERFROG", "SPIRITDIRECTOR"}
     @NotEmpty(message = "Roles are required")
     private String roles;
 
