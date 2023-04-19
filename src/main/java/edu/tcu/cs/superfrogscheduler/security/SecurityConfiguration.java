@@ -65,17 +65,18 @@ public class SecurityConfiguration {
         return http
                 // It is recommended to secure your application at the API endpoint level.
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances").permitAll()
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/appearances/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").permitAll()
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").hasAuthority("ROLE_SPIRITDIRECTOR")
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/payment/payment-forms").permitAll()
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").permitAll() // Protect the endpoint.
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").permitAll() // Protect the endpoint.
-                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").permitAll() // Protect the endpoint.
-                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_admin") // Protect the endpoint.
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/payment/payment-forms").hasAuthority("ROLE_SPIRITDIRECTOR")
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_SUPERFROG") // Protect the endpoint.
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR")// Protect the endpoint.
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_SUPERFROG") // Protect the endpoint.
+                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Protect the endpoint.
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll() // Explicitly fallback to antMatcher inside requestMatchers.
                         // Disallow everything else.
                         .anyRequest().authenticated() // Always a good idea to put this as last.
