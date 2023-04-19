@@ -140,4 +140,10 @@ public class AppearanceController {
         excelExporter.export(response);
     }
 
+    @PostMapping("/{requestId}/complete")
+    public Result completeAppearance(@PathVariable Long requestId){
+        Appearance completedAppearance = this.appearanceService.complete(requestId);
+        return new Result(true, StatusCode.SUCCESS, "Completion Successful", completedAppearance);
+    }
+
 }

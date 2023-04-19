@@ -93,4 +93,13 @@ public class AppearanceService {
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
     }
 
+    public Appearance complete(Long requestId){
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setStatus(AppearanceStatus.COMPLETED);
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
 }

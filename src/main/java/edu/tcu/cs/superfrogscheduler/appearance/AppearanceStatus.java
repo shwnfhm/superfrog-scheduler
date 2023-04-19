@@ -5,7 +5,7 @@ public enum AppearanceStatus {
     APPROVED,
     REJECTED,
     ASSIGNED,
-    FINISHED,
+    COMPLETED,
     CANCELLED,
     PAYROLL
 }
