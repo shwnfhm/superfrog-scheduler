@@ -23,7 +23,7 @@ public class DBDataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         User spiritDirector = new User();
         spiritDirector.setEmail("superfrogschedulercite30363@gmail.com");
-        spiritDirector.setRoles("SPIRITDIRECTOR USER");
+        spiritDirector.setRoles("SPIRITDIRECTOR SUPERFROG");
         spiritDirector.setPassword("spiritdirector");
         spiritDirector.setActive(true);
         spiritDirector.setInternational(false);

@@ -1,5 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,14 +47,16 @@ public class UserService implements UserDetailsService {
      * @return
      */
     public User update(Long userId, User update) {
-        User oldUser = this.userRepository.findById(userId)
+        return this.userRepository.findById(userId)
+                .map(oldUser -> {
+                    oldUser.setEmail(update.getEmail());
+                    oldUser.setActive(update.isActive());
+                    oldUser.setRoles(update.getRoles());
+                    oldUser.setInternational(update.isInternational());
+                    oldUser.setPaymentPreference(update.getPaymentPreference());
+                    return this.userRepository.save(oldUser);
+                })
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
-        oldUser.setEmail(update.getEmail());
-        oldUser.setActive(update.isActive());
-        oldUser.setRoles(update.getRoles());
-        oldUser.setInternational(update.isInternational());
-        oldUser.setPaymentPreference(update.getPaymentPreference());
-        return this.userRepository.save(oldUser);
     }
 
     @Override

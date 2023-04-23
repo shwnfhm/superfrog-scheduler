@@ -1,5 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.security;
 
+import edu.tcu.cs.superfrogscheduler.user.MyUserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -35,6 +36,7 @@ public class JwtProvider {
                 .expiresAt(now.plus(expiresIn, ChronoUnit.HOURS))
                 .subject(authentication.getName())
                 .claim("authorities", authorities)
+                .claim("id", ((MyUserPrincipal)authentication.getPrincipal()).getUser().getId())
                 .build();
 
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

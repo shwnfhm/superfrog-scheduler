@@ -36,6 +36,7 @@ public class MyUserPrincipal implements UserDetails {
         return this.user.getEmail();
     }
 
+    public void setUsername(String newEmail) { this.user.setEmail(newEmail); }
 
     @Override
     public boolean isAccountNonExpired() {
