@@ -52,8 +52,30 @@ public class UserService implements UserDetailsService {
                     oldUser.setEmail(update.getEmail());
                     oldUser.setActive(update.isActive());
                     oldUser.setRoles(update.getRoles());
+                    oldUser.setFirstName(update.getFirstName());
+                    oldUser.setLastName(update.getLastName());
+                    oldUser.setAddress(update.getAddress());
+                    oldUser.setPhoneNumber(update.getPhoneNumber());
                     oldUser.setInternational(update.isInternational());
                     oldUser.setPaymentPreference(update.getPaymentPreference());
+                    return this.userRepository.save(oldUser);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("user", userId));
+    }
+
+    public User deactivate(Long userId){
+        return this.userRepository.findById(userId)
+                .map(oldUser -> {
+                    oldUser.setActive(false);
+                    return this.userRepository.save(oldUser);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("user", userId));
+    }
+
+    public User activate(Long userId){
+        return this.userRepository.findById(userId)
+                .map(oldUser -> {
+                    oldUser.setActive(true);
                     return this.userRepository.save(oldUser);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));

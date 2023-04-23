@@ -1,6 +1,7 @@
 package edu.tcu.cs.superfrogscheduler.security;
 
 import edu.tcu.cs.superfrogscheduler.appearance.converter.AppearanceDtoToAppearanceConverter;
+import edu.tcu.cs.superfrogscheduler.email.EmailService;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
 import edu.tcu.cs.superfrogscheduler.user.User;
@@ -31,11 +32,14 @@ public class AuthController {
 
     private final UserDtoToUserConverter userDtoToUserConverter;
 
+    private EmailService emailService;
+
     @Autowired
-    public AuthController(AuthService authService, UserToUserDtoConverter userToUserDtoConverter, UserDtoToUserConverter userDtoToUserConverter) {
+    public AuthController(AuthService authService, UserToUserDtoConverter userToUserDtoConverter, UserDtoToUserConverter userDtoToUserConverter, EmailService emailService) {
         this.authService = authService;
         this.userToUserDtoConverter = userToUserDtoConverter;
         this.userDtoToUserConverter = userDtoToUserConverter;
+        this.emailService = emailService;
     }
 
     /**
@@ -69,6 +73,9 @@ public class AuthController {
         User update = this.userDtoToUserConverter.convert(userDto);
         User updatedUser = this.authService.update(authentication, update);
         UserDto updatedUserDto = this.userToUserDtoConverter.convert(updatedUser);
+        emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
+                "SuperFrog User Update", "Dear Spirit Director," + "\n" + "User " + updatedUser.getId().toString() + " has updated their information.\n"
+                        );
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedUserDto);
     }
 

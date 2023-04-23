@@ -71,4 +71,18 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedUserDto);
     }
 
+    @DeleteMapping("/{userId}/active")
+    public Result deactivateUser(@PathVariable Long userId){
+        User deactivatedUser = this.userService.deactivate(userId);
+        UserDto deactivatedUserDto = this.userToUserDtoConverter.convert(deactivatedUser);
+        return new Result(true, StatusCode.SUCCESS, "Deactivation Success", deactivatedUserDto);
+    }
+
+    @PostMapping("/{userId}/active")
+    public Result activateUser(@PathVariable Long userId){
+        User activatedUser = this.userService.activate(userId);
+        UserDto activatedUserDto = this.userToUserDtoConverter.convert(activatedUser);
+        return new Result(true, StatusCode.SUCCESS, "Activation Successful", activatedUserDto);
+    }
+
 }

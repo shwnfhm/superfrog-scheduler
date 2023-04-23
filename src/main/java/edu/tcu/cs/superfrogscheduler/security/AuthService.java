@@ -67,10 +67,10 @@ public class AuthService {
         return this.userRepository.findById(id)
                 .map(oldUser -> {
                     oldUser.setEmail(updatedUser.getEmail());
-                    oldUser.setActive(updatedUser.isActive());
+                    oldUser.setPhoneNumber(updatedUser.getPhoneNumber());
+                    oldUser.setAddress(updatedUser.getAddress());
                     oldUser.setFirstName(updatedUser.getFirstName());
                     oldUser.setLastName(updatedUser.getLastName());
-                    oldUser.setRoles(updatedUser.getRoles());
                     oldUser.setInternational(updatedUser.isInternational());
                     oldUser.setPaymentPreference(updatedUser.getPaymentPreference());
                     return this.userRepository.save(oldUser);

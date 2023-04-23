@@ -23,6 +23,9 @@ public record UserDto(
 
         boolean international,
 
-        PaymentPreference paymentPreference
+        PaymentPreference paymentPreference,
+
+        @NotEmpty(message = "Address is required")
+        String address
 ) {
 }

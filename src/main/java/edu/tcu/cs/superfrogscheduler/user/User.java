@@ -43,6 +43,9 @@ public class User implements Serializable {
     @NotBlank
     private String firstName;
 
+    @NotBlank
+    private String address;
+
     //user's last name
     @NotBlank
     private String lastName;
@@ -172,5 +175,13 @@ public class User implements Serializable {
 
     public void setPaymentPreference(PaymentPreference paymentPreference) {
         this.paymentPreference = paymentPreference;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

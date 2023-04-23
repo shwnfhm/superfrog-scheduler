@@ -18,6 +18,7 @@ public class UserDtoToUserConverter implements Converter<UserDto, User>{
         converted.setPhoneNumber(source.phoneNumber());
         converted.setInternational(source.international());
         converted.setPaymentPreference(source.paymentPreference());
+        converted.setAddress(source.address());
         return converted;
     }
 }

@@ -1,4 +1,4 @@
-package edu.tcu.cs.superfrogscheduler.appearance.email;
+package edu.tcu.cs.superfrogscheduler.email;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
