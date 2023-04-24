@@ -10,4 +10,6 @@ import java.util.List;
 public interface AppearanceRepository extends JpaRepository<Appearance, Long> {
     List<Appearance> findByRequestIdIn(List<Long> appearanceRequestIdList);
 
+    List<Appearance> findByStatus(AppearanceStatus status);
+
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -118,6 +119,16 @@ public class AppearanceController {
     public Result completeAppearance(@PathVariable Long requestId){
         Appearance completedAppearance = this.appearanceService.complete(requestId);
         return new Result(true, StatusCode.SUCCESS, "Completion Successful", completedAppearance);
+    }
+
+    @GetMapping("/approvals/open")
+    public Result getOpenApprovedAppearances(){
+        List<Appearance> openApprovedAppearances = this.appearanceService.getOpenApprovedAppearances();
+        List<AppearanceDto> openApprovedAppearancesDto = new ArrayList<>();
+        for(int i = 0; i<openApprovedAppearances.size(); i++){
+            openApprovedAppearancesDto.add(this.appearanceToAppearanceDtoConverter.convert(openApprovedAppearances.get(i)));
+        }
+        return new Result(true, StatusCode.SUCCESS, "Get Open Approved Appearances Successful", openApprovedAppearancesDto);
     }
 
 }

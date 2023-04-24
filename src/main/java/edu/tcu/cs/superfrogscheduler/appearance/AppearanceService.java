@@ -6,6 +6,7 @@ import edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -86,6 +87,17 @@ public class AppearanceService {
                     return this.appearanceRepository.save(oldAppearance);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
+    public List<Appearance> getOpenApprovedAppearances(){
+        List<Appearance> approvedAppearances = this.appearanceRepository.findByStatus(AppearanceStatus.APPROVED);
+        List<Appearance> openApprovedAppearances = new ArrayList<>();
+        for(int i = 0; i < approvedAppearances.size(); i++){
+            if(approvedAppearances.get(i).getAssignedSuperFrog() == null){
+                openApprovedAppearances.add(approvedAppearances.get(i));
+            }
+        }
+        return openApprovedAppearances;
     }
 
 }

@@ -74,6 +74,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").hasAuthority("ROLE_SPIRITDIRECTOR")
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/payment/payment-forms").hasAuthority("ROLE_SPIRITDIRECTOR")
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/approvals/open").hasAuthority("ROLE_SUPERFROG")
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Protect the endpoint.
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR")// Protect the endpoint.
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG")
