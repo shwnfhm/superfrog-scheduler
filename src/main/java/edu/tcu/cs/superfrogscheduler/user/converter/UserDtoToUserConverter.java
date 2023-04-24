@@ -19,6 +19,7 @@ public class UserDtoToUserConverter implements Converter<UserDto, User>{
         converted.setInternational(source.international());
         converted.setPaymentPreference(source.paymentPreference());
         converted.setAddress(source.address());
+        converted.setPassword(source.password());
         return converted;
     }
 }

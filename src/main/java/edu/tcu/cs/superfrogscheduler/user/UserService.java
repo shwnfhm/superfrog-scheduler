@@ -63,6 +63,9 @@ public class UserService implements UserDetailsService {
                     oldUser.setPhoneNumber(update.getPhoneNumber());
                     oldUser.setInternational(update.isInternational());
                     oldUser.setPaymentPreference(update.getPaymentPreference());
+                    if(update.getPassword() != "") {
+                        oldUser.setPassword(this.passwordEncoder.encode(update.getPassword()));
+                    }
                     return this.userRepository.save(oldUser);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));

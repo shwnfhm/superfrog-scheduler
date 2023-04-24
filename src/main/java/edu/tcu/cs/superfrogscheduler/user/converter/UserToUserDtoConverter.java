@@ -44,7 +44,9 @@ public class UserToUserDtoConverter implements Converter<User, UserDto> {
                 source.getPaymentPreference(),
                 source.getAddress(),
                 appearanceDtos,
-                completedAppearanceDtos);
+                completedAppearanceDtos,
+                ""
+        );
         return userDto;
     }
 }

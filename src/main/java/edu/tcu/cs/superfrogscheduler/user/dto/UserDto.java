@@ -34,6 +34,8 @@ public record UserDto(
 
         List<AppearanceDto> appearanceDtos,
 
-        List<AppearanceDto> completedAppearanceDtos
+        List<AppearanceDto> completedAppearanceDtos,
+
+        String password
 ) {
 }
