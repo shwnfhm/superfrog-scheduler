@@ -96,6 +96,8 @@ public class UserService implements UserDetailsService {
         if (appearanceToBeAssigned.getAssignedSuperFrog() != null) {
             appearanceToBeAssigned.getAssignedSuperFrog().removeAssignedAppearance(appearanceToBeAssigned);
         }
+
+        appearanceToBeAssigned.setStatus(AppearanceStatus.ASSIGNED);
         assignee.addAssignedAppearance(appearanceToBeAssigned);
         return this.appearanceRepository.save(appearanceToBeAssigned);
     }
@@ -104,14 +106,16 @@ public class UserService implements UserDetailsService {
         Appearance appearanceToBeUnassigned = this.appearanceRepository.findById(requestId)
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
 
+        appearanceToBeUnassigned.setStatus(AppearanceStatus.APPROVED);
         appearanceToBeUnassigned.getAssignedSuperFrog().removeAssignedAppearance(appearanceToBeUnassigned);
         return this.appearanceRepository.save(appearanceToBeUnassigned);
     }
 
-    public void completeAppearance(Long requestId){
+    public Appearance completeAppearance(Long requestId){
         Appearance appearanceToBeCompleted = this.appearanceRepository.findById(requestId)
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
         appearanceToBeCompleted.getAssignedSuperFrog().addCompletedAppearance(appearanceToBeCompleted);
+        return this.appearanceRepository.save(appearanceToBeCompleted);
     }
 
     @Override
