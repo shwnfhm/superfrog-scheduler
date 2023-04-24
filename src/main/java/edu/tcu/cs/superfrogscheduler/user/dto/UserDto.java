@@ -21,7 +21,7 @@ public record UserDto(
         @NotEmpty(message = "Last name is required")
         String lastName,
 
-        @NotEmpty(message = "Roles are required")
+
         String roles,
         boolean active,
 
