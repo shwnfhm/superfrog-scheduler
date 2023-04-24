@@ -118,6 +118,9 @@ public class AppearanceController {
     @PostMapping("/{requestId}/complete")
     public Result completeAppearance(@PathVariable Long requestId){
         Appearance completedAppearance = this.appearanceService.complete(requestId);
+        emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Appearance Complete", "Dear Spirit Director," + "\n" + "Appearance " + completedAppearance.getRequestId().toString() + " has been completed\n"
+                        + "by SuperFrog user " + completedAppearance.getAssignedSuperFrog().getId().toString() + ".\n");
         return new Result(true, StatusCode.SUCCESS, "Completion Successful", completedAppearance);
     }
 
