@@ -41,7 +41,7 @@ public class AppearanceService {
                     oldAppearance.setAddress(update.getAddress());
                     oldAppearance.setDesc(update.getDesc());
                     oldAppearance.setRequestId(requestId);
-                    oldAppearance.setStatus(update.getStatus());
+                    oldAppearance.setStatus(AppearanceStatus.PENDING);
                     oldAppearance.setAppearanceType(update.getAppearanceType());
                     oldAppearance.setExpenses(update.getExpenses());
                     oldAppearance.setMileage(update.getMileage());

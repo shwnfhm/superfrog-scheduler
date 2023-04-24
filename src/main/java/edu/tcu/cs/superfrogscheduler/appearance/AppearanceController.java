@@ -52,9 +52,12 @@ public class AppearanceController {
         Appearance savedNewAppearance = this.appearanceService.save(newAppearance);
         AppearanceDto savedNewAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(savedNewAppearance);
         emailService.sendEmail(savedNewAppearance.getReqEmail(),"superfrogschedulercite30363@gmail.com",
-                                "SuperFrog Request Received","Dear Customer," + "\n" + "We are glad to inform you that your request has been submitted. \n"
+                                "SuperFrog Request " + savedNewAppearance.getRequestId().toString() + " Received","Dear Customer," + "\n" + "We are glad to inform you that your request (ID: " + savedNewAppearance.getRequestId().toString() + " has been submitted. \n"
                         + "Your request will be reviewed and a SuperFrog will be assigned if approved\n" +
                         "Thank you!");
+        emailService.sendEmail("superfrogschedulercite30363@gmail.com","superfrogschedulercite30363@gmail.com",
+                "SuperFrog Request Submitted","Dear Spirit Director," + "\n" + "A customer has submitted a new appearance request \n"
+                        );
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedNewAppearanceDto);
     }
 
@@ -79,7 +82,20 @@ public class AppearanceController {
     public Result updateAppearance(@PathVariable Long requestId, @Valid @RequestBody AppearanceDto appearanceDto){
         Appearance update = this.appearanceDtoToAppearanceConverter.convert(appearanceDto);
         Appearance updatedAppearance = this.appearanceService.update(requestId, update);
+        if(updatedAppearance.getAssignedSuperFrog() != null) {
+            emailService.sendEmail(updatedAppearance.getAssignedSuperFrog().getEmail(),"superfrogschedulercite30363@gmail.com",
+                    "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Unassigned","Dear Superfrog," + "\n" + "A customer has modified an existing appearance request (ID: " + updatedAppearance.getRequestId().toString() + ". \n"
+                    + "You have been unassigned from the event.");
+            updatedAppearance = this.userService.unassign(requestId);
+        }
         AppearanceDto updatedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(updatedAppearance);
+        emailService.sendEmail(updatedAppearance.getReqEmail(),"superfrogschedulercite30363@gmail.com",
+                "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Modified","Dear Customer," + "\n" + "We are glad to inform you that your request (ID: " + updatedAppearance.getRequestId().toString() + " modification has been submitted. \n"
+                        + "Your modified request will be reviewed and a SuperFrog will be assigned if approved\n" +
+                        "Thank you!");
+        emailService.sendEmail("superfrogschedulercite30363@gmail.com","superfrogschedulercite30363@gmail.com",
+                "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Modified","Dear Spirit Director," + "\n" + "A customer has modified an existing appearance request (ID: " + updatedAppearance.getRequestId().toString() + ". \n"
+        );
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedAppearanceDto);
     }
 

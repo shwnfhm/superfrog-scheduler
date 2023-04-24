@@ -97,7 +97,7 @@ public class UserService implements UserDetailsService {
             appearanceToBeAssigned.getAssignedSuperFrog().removeAssignedAppearance(appearanceToBeAssigned);
         }
         assignee.addAssignedAppearance(appearanceToBeAssigned);
-        return appearanceToBeAssigned;
+        return this.appearanceRepository.save(appearanceToBeAssigned);
     }
 
     public Appearance unassign(Long requestId){
@@ -105,13 +105,12 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
 
         appearanceToBeUnassigned.getAssignedSuperFrog().removeAssignedAppearance(appearanceToBeUnassigned);
-        return appearanceToBeUnassigned;
+        return this.appearanceRepository.save(appearanceToBeUnassigned);
     }
 
     public void completeAppearance(Long requestId){
         Appearance appearanceToBeCompleted = this.appearanceRepository.findById(requestId)
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
-
         appearanceToBeCompleted.getAssignedSuperFrog().addCompletedAppearance(appearanceToBeCompleted);
     }
 
