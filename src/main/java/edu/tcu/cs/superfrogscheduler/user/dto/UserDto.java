@@ -1,6 +1,5 @@
 package edu.tcu.cs.superfrogscheduler.user.dto;
 
-import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
 import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
 import edu.tcu.cs.superfrogscheduler.user.PaymentPreference;
 import jakarta.validation.constraints.Email;

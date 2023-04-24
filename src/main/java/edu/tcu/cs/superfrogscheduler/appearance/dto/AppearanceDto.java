@@ -2,9 +2,6 @@ package edu.tcu.cs.superfrogscheduler.appearance.dto;
 
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceType;
-import edu.tcu.cs.superfrogscheduler.user.User;
-import edu.tcu.cs.superfrogscheduler.user.dto.UserDto;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;

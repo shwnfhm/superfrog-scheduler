@@ -1,9 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.tcu.cs.superfrogscheduler.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
-import edu.tcu.cs.superfrogscheduler.user.User;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 

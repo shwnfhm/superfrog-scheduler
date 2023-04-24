@@ -5,8 +5,6 @@ import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 @Component
 public class AppearanceDtoToAppearanceConverter implements Converter<AppearanceDto, Appearance> {
     @Override

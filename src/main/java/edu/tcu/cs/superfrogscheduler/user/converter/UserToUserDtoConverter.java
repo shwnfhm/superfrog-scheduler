@@ -2,8 +2,6 @@ package edu.tcu.cs.superfrogscheduler.user.converter;
 
 import edu.tcu.cs.superfrogscheduler.appearance.converter.AppearanceToAppearanceDtoConverter;
 import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import edu.tcu.cs.superfrogscheduler.user.User;

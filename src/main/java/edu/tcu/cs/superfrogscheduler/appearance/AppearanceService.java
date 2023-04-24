@@ -1,7 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
-import edu.tcu.cs.superfrogscheduler.user.User;
 import edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

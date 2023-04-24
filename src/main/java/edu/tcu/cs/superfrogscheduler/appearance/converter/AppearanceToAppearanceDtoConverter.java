@@ -1,17 +1,9 @@
 package edu.tcu.cs.superfrogscheduler.appearance.converter;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
-import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
-import edu.tcu.cs.superfrogscheduler.appearance.AppearanceType;
 import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
-import edu.tcu.cs.superfrogscheduler.user.User;
-import edu.tcu.cs.superfrogscheduler.user.converter.UserToUserDtoConverter;
-import jakarta.validation.constraints.NotEmpty;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Component
 public class AppearanceToAppearanceDtoConverter implements Converter<Appearance, AppearanceDto> {
