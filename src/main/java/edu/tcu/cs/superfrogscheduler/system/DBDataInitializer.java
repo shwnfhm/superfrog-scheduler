@@ -32,7 +32,6 @@ public class DBDataInitializer implements CommandLineRunner {
         spiritDirector.setPaymentPreference(PaymentPreference.MAILCHECK);
         spiritDirector.setPhoneNumber("4697682085");
         spiritDirector.setAddress("123 P Sherman Way");
-        spiritDirector.setAppearances(null);
         this.userService.save(spiritDirector);
     }
 }
