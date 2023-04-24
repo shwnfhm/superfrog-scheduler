@@ -3,6 +3,7 @@ package edu.tcu.cs.superfrogscheduler.payment;
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceRepository;
 import edu.tcu.cs.superfrogscheduler.user.User;
+import edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,13 @@ public class PaymentService {
 
     private PaymentFormRepository paymentFormRepository;
 
+    private UserRepository userRepository;
 
-    public PaymentService(AppearanceRepository requestRepository, PaymentFormRepository paymentFormRepository) {
+
+    public PaymentService(AppearanceRepository requestRepository, PaymentFormRepository paymentFormRepository, UserRepository userRepository) {
         this.appearanceRepository = requestRepository;
         this.paymentFormRepository = paymentFormRepository;
+        this.userRepository = userRepository;
     }
 
 

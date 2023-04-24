@@ -16,12 +16,6 @@ import java.time.LocalTime;
 @Component
 public class AppearanceToAppearanceDtoConverter implements Converter<Appearance, AppearanceDto> {
 
-    private final UserToUserDtoConverter userToUserDtoConverter;
-
-    public AppearanceToAppearanceDtoConverter(UserToUserDtoConverter userToUserDtoConverter) {
-        this.userToUserDtoConverter = userToUserDtoConverter;
-    }
-
     @Override
     public AppearanceDto convert(Appearance source) {
         final AppearanceDto appearanceDto = new AppearanceDto(
@@ -43,10 +37,7 @@ public class AppearanceToAppearanceDtoConverter implements Converter<Appearance,
                 source.isOnCampus(),
                 source.getInstructions(),
                 source.getExpenses(),
-                source.getOutsideOrg(),
-                source.getAssignedSuperFrog() != null
-                        ? this.userToUserDtoConverter.convert(source.getAssignedSuperFrog())
-                        : null
+                source.getOutsideOrg()
         );
         return appearanceDto;
     }

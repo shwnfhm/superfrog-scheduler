@@ -1,6 +1,9 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.tcu.cs.superfrogscheduler.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -85,7 +88,9 @@ public class Appearance implements Serializable{
     private String outsideOrg;
 
     @ManyToOne
+    @JsonBackReference
     private User assignedSuperFrog;
+
 
     public Appearance() {
 
@@ -251,7 +256,10 @@ public class Appearance implements Serializable{
         return assignedSuperFrog;
     }
 
-    public void setAssignedSuperFrog(User assignedSuperFrog) {
-        this.assignedSuperFrog = assignedSuperFrog;
+    public void setAssignedSuperFrog(User assignee) {
+        this.assignedSuperFrog = assignee;
     }
+
+
+
 }

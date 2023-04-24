@@ -1,8 +1,12 @@
 package edu.tcu.cs.superfrogscheduler.user.dto;
 
+import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
+import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
 import edu.tcu.cs.superfrogscheduler.user.PaymentPreference;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+
+import java.util.List;
 
 public record UserDto(
         Long id,
@@ -26,6 +30,8 @@ public record UserDto(
         PaymentPreference paymentPreference,
 
         @NotEmpty(message = "Address is required")
-        String address
+        String address,
+
+        List<AppearanceDto> appearanceDtos
 ) {
 }

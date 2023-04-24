@@ -1,5 +1,7 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
+import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceRepository;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
@@ -17,11 +19,14 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    private final AppearanceRepository appearanceRepository;
+
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, AppearanceRepository appearanceRepository, PasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
+        this.appearanceRepository = appearanceRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -79,6 +84,28 @@ public class UserService implements UserDetailsService {
                     return this.userRepository.save(oldUser);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
+    }
+
+    public Appearance assign(Long requestId, Long userId){
+        Appearance appearanceToBeAssigned = this.appearanceRepository.findById(requestId)
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+
+        User assignee = this.userRepository.findById(userId)
+                .orElseThrow(() -> new ObjectNotFoundException("user", userId));
+
+        if (appearanceToBeAssigned.getAssignedSuperFrog() != null) {
+            appearanceToBeAssigned.getAssignedSuperFrog().removeAppearance(appearanceToBeAssigned);
+        }
+        assignee.addAppearance(appearanceToBeAssigned);
+        return appearanceToBeAssigned;
+    }
+
+    public Appearance unassign(Long requestId){
+        Appearance appearanceToBeUnassigned = this.appearanceRepository.findById(requestId)
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+
+        appearanceToBeUnassigned.getAssignedSuperFrog().removeAppearance(appearanceToBeUnassigned);
+        return appearanceToBeUnassigned;
     }
 
     @Override

@@ -52,7 +52,6 @@ public record AppearanceDto(
         String expenses,
 
         @NotEmpty(message = "Outside org is required")
-        String outsideOrg,
-        UserDto assignedSuperFrog
+        String outsideOrg
 ) {
 }

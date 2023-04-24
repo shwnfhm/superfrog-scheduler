@@ -77,26 +77,6 @@ public class AppearanceController {
         AppearanceDto updatedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(updatedAppearance);
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedAppearanceDto);
     }
-    @PostMapping("/{requestId}/user")
-    public Result assignUserToAppearance(@PathVariable Long requestId, @Valid @RequestBody UserDto assigneeDto){
-        User assignee = this.userDtoToUserConverter.convert(assigneeDto);
-        Appearance updatedAppearance = this.appearanceService.assign(requestId, assignee);
-        emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
-                                "SuperFrog Assigned", "Dear Customer," + "\n" + "We are glad to inform you that a SuperFrog has been assigned to your event \n"
-                        + "Please submit payment if you have not already\n" +
-                        "Thank you!");
-        return new Result(true, StatusCode.SUCCESS, "Assignment Successful", updatedAppearance);
-    }
-
-    @DeleteMapping("/{requestId}/user")
-    public Result removeUserFromAppearance(@PathVariable Long requestId){
-        Appearance updatedAppearance = this.appearanceService.unassign(requestId);
-        emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
-                                    "SuperFrog Unassigned", "Dear Customer," + "\n" + "We regret to inform you that the SuperFrog assigned to your event has been removed \n"
-                        + "We will try to assign a replacement as soon as possible\n" +
-                        "Thank you for your patience");
-        return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
-    }
 
     @PostMapping("/{requestId}/approval")
     public Result approveRequest(@PathVariable Long requestId){

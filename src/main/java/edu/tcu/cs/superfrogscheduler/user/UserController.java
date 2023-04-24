@@ -1,5 +1,8 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
+import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceRepository;
+import edu.tcu.cs.superfrogscheduler.email.EmailService;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
 import edu.tcu.cs.superfrogscheduler.user.converter.UserDtoToUserConverter;
@@ -29,10 +32,13 @@ public class UserController {
 
     private final UserToUserDtoConverter userToUserDtoConverter; // Convert user to userDto.
 
-    public UserController(UserService userService, UserDtoToUserConverter userDtoToUserConverter, UserToUserDtoConverter userToUserDtoConverter) {
+    private EmailService emailService;
+
+    public UserController(UserService userService, UserDtoToUserConverter userDtoToUserConverter, UserToUserDtoConverter userToUserDtoConverter, EmailService emailService) {
         this.userService = userService;
         this.userDtoToUserConverter = userDtoToUserConverter;
         this.userToUserDtoConverter = userToUserDtoConverter;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -59,6 +65,9 @@ public class UserController {
     public Result addUser(@Valid @RequestBody User user){
         User savedUser = this.userService.save(user);
         UserDto savedUserDto = this.userToUserDtoConverter.convert(savedUser);
+        emailService.sendEmail(savedUser.getEmail(), "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Account Created", "Dear SuperFrog," + "\n" + "An account has been created for you\n"
+        );
         return new Result(true, StatusCode.SUCCESS, "Success", savedUserDto);
     }
 
@@ -75,6 +84,9 @@ public class UserController {
     public Result deactivateUser(@PathVariable Long userId){
         User deactivatedUser = this.userService.deactivate(userId);
         UserDto deactivatedUserDto = this.userToUserDtoConverter.convert(deactivatedUser);
+        emailService.sendEmail(deactivatedUser.getEmail(), "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Account Deactivated", "Dear SuperFrog," + "\n" + "Your account has been deactivated\n"
+        );
         return new Result(true, StatusCode.SUCCESS, "Deactivation Success", deactivatedUserDto);
     }
 
@@ -82,7 +94,30 @@ public class UserController {
     public Result activateUser(@PathVariable Long userId){
         User activatedUser = this.userService.activate(userId);
         UserDto activatedUserDto = this.userToUserDtoConverter.convert(activatedUser);
+        emailService.sendEmail(activatedUser.getEmail(), "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Account Activated", "Dear SuperFrog," + "\n" + "Your account has been activated\n"
+        );
         return new Result(true, StatusCode.SUCCESS, "Activation Successful", activatedUserDto);
+    }
+
+    @PostMapping("/{userId}/{requestId}")
+    public Result assignUserToAppearance(@PathVariable Long requestId, @PathVariable Long userId){
+        Appearance updatedAppearance = this.userService.assign(requestId, userId);
+        emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Assigned", "Dear Customer," + "\n" + "We are glad to inform you that a SuperFrog has been assigned to your event \n"
+                        + "Please submit payment if you have not already\n" +
+                        "Thank you!");
+        return new Result(true, StatusCode.SUCCESS, "Assignment Successful", updatedAppearance);
+    }
+
+    @DeleteMapping("/{userId}/{requestId}")
+    public Result removeUserFromAppearance(@PathVariable Long requestId){
+        Appearance updatedAppearance = this.userService.unassign(requestId);
+        emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Unassigned", "Dear Customer," + "\n" + "We regret to inform you that the SuperFrog assigned to your event has been removed \n"
+                        + "We will try to assign a replacement as soon as possible\n" +
+                        "Thank you for your patience");
+        return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
     }
 
 }

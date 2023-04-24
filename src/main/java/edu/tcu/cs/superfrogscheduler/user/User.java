@@ -1,5 +1,7 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceType;
 import edu.tcu.cs.superfrogscheduler.payment.PaymentForm;
@@ -10,9 +12,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -62,6 +67,11 @@ public class User implements Serializable {
     private boolean international;
 
     private PaymentPreference paymentPreference;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "assignedSuperFrog")
+    @JsonManagedReference
+    @Fetch(FetchMode.JOIN)
+    private List<Appearance> appearances = new ArrayList<>();
 
     public User() {
 
@@ -184,4 +194,23 @@ public class User implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public List<Appearance> getAppearances() {
+        return appearances;
+    }
+
+    public void addAppearance(Appearance appearance){
+        appearance.setAssignedSuperFrog(this);
+        this.appearances.add(appearance);
+    }
+
+    public void removeAppearance(Appearance appearance){
+        appearance.setAssignedSuperFrog(null);
+        this.appearances.remove(appearance);
+    }
+
+    public void setAppearances(List<Appearance> appearances){
+        this.appearances = appearances;
+    }
+
 }

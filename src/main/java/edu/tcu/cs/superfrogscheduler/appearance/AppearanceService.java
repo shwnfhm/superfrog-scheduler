@@ -2,6 +2,7 @@ package edu.tcu.cs.superfrogscheduler.appearance;
 
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
 import edu.tcu.cs.superfrogscheduler.user.User;
+import edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,11 @@ public class AppearanceService {
 
     private final AppearanceRepository appearanceRepository;
 
-    public AppearanceService(AppearanceRepository appearanceRepository) {
+    private final UserRepository userRepository;
+
+    public AppearanceService(AppearanceRepository appearanceRepository, UserRepository userRepository) {
         this.appearanceRepository = appearanceRepository;
+        this.userRepository = userRepository;
     }
 
     public Appearance save(Appearance newAppearance){
@@ -52,24 +56,6 @@ public class AppearanceService {
                     oldAppearance.setReqPhoneNumber(update.getReqPhoneNumber());
                     oldAppearance.setOrgName(update.getOrgName());
                     oldAppearance.setOutsideOrg(update.getOutsideOrg());
-                    return this.appearanceRepository.save(oldAppearance);
-                })
-                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
-    }
-
-    public Appearance assign(Long requestId, User assignee){
-        return this.appearanceRepository.findById(requestId)
-                .map(oldAppearance -> {
-                    oldAppearance.setAssignedSuperFrog(assignee);
-                    return this.appearanceRepository.save(oldAppearance);
-                })
-                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
-    }
-
-    public Appearance unassign(Long requestId){
-        return this.appearanceRepository.findById(requestId)
-                .map(oldAppearance -> {
-                    oldAppearance.setAssignedSuperFrog(null);
                     return this.appearanceRepository.save(oldAppearance);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
