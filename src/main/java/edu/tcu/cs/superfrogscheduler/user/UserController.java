@@ -72,6 +72,7 @@ public class UserController {
         UserDto savedUserDto = this.userToUserDtoConverter.convert(savedUser);
         emailService.sendEmail(savedUser.getEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Account Created", "Dear SuperFrog," + "\n" + "An account has been created for you\n"
+                + "Your temporary password is 'superfrogswag'. Please log in to change your password."
         );
         return new Result(true, StatusCode.SUCCESS, "Success", savedUserDto);
     }

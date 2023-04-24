@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,14 @@ public class AuthService {
 
     private final UserService userService;
 
+    private PasswordEncoder passwordEncoder;
 
-    public AuthService(JwtProvider jwtProvider, UserToUserDtoConverter userToUserDtoConverter, UserRepository userRepository, UserService userService) {
+    public AuthService(JwtProvider jwtProvider, UserToUserDtoConverter userToUserDtoConverter, UserRepository userRepository, UserService userService, PasswordEncoder passwordEncoder) {
         this.jwtProvider = jwtProvider;
         this.userToUserDtoConverter = userToUserDtoConverter;
         this.userRepository = userRepository;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Map<String, Object> createLoginInfo(Authentication authentication) {
@@ -73,6 +76,9 @@ public class AuthService {
                     oldUser.setLastName(updatedUser.getLastName());
                     oldUser.setInternational(updatedUser.isInternational());
                     oldUser.setPaymentPreference(updatedUser.getPaymentPreference());
+                    if(updatedUser.getPassword() != "") {
+                        oldUser.setPassword(this.passwordEncoder.encode(updatedUser.getPassword()));
+                    }
                     return this.userRepository.save(oldUser);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("user", id));
