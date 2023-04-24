@@ -68,7 +68,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances").permitAll()
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances").hasAuthority("ROLE_SUPERFROG")
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/**").hasAuthority("ROLE_SUPERFROG")
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/**/cancel").permitAll()
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/appearances/**").permitAll()

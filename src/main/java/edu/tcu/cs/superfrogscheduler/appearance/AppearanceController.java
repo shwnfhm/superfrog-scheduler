@@ -154,6 +154,7 @@ public class AppearanceController {
                     "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled","Dear Superfrog," + "\n" + "An existing appearance request (ID: " + cancelledAppearance.getRequestId().toString() + " has been cancelled. \n"
                             + "You have been unassigned from the event.");
             cancelledAppearance = this.userService.unassign(requestId);
+            cancelledAppearance = this.appearanceService.cancel(requestId);
         }
         AppearanceDto cancelledAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(cancelledAppearance);
         emailService.sendEmail(cancelledAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",

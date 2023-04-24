@@ -2,6 +2,8 @@ package edu.tcu.cs.superfrogscheduler.user;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceRepository;
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceService;
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
 import edu.tcu.cs.superfrogscheduler.email.EmailService;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
@@ -34,11 +36,14 @@ public class UserController {
 
     private EmailService emailService;
 
-    public UserController(UserService userService, UserDtoToUserConverter userDtoToUserConverter, UserToUserDtoConverter userToUserDtoConverter, EmailService emailService) {
+    private AppearanceService appearanceService;
+
+    public UserController(UserService userService, UserDtoToUserConverter userDtoToUserConverter, UserToUserDtoConverter userToUserDtoConverter, EmailService emailService, AppearanceService appearanceService) {
         this.userService = userService;
         this.userDtoToUserConverter = userDtoToUserConverter;
         this.userToUserDtoConverter = userToUserDtoConverter;
         this.emailService = emailService;
+        this.appearanceService = appearanceService;
     }
 
     @GetMapping
@@ -102,6 +107,13 @@ public class UserController {
 
     @PostMapping("/{userId}/{requestId}")
     public Result assignUserToAppearance(@PathVariable Long requestId, @PathVariable Long userId){
+        Appearance oldAppearance = this.appearanceService.findById(requestId);
+        if(oldAppearance.getStatus() == AppearanceStatus.ASSIGNED){
+            emailService.sendEmail(oldAppearance.getAssignedSuperFrog().getEmail(), "superfrogschedulercite30363@gmail.com",
+                    "Appearance ID " + oldAppearance.getRequestId().toString() + " Unassigned", "Dear Superfrog," + "\n" + "You have been unassigned from appearance " + oldAppearance.getRequestId().toString() + " \n"
+                            + "We apologize for any inconvenience\n" +
+                            "Thank you!");
+        }
         Appearance updatedAppearance = this.userService.assign(requestId, userId);
         emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Assigned", "Dear Customer," + "\n" + "We are glad to inform you that a SuperFrog has been assigned to your event \n"
