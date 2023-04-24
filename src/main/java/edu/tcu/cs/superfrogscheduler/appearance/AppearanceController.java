@@ -139,10 +139,27 @@ public class AppearanceController {
     public Result completeAppearance(@PathVariable Long requestId){
         Appearance completedAppearance = this.appearanceService.complete(requestId);
         this.userService.completeAppearance(requestId);
+        AppearanceDto completedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(completedAppearance);
         emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Appearance Complete", "Dear Spirit Director," + "\n" + "Appearance " + completedAppearance.getRequestId().toString() + " has been completed\n"
                         + "by SuperFrog user " + completedAppearance.getAssignedSuperFrog().getId().toString() + ".\n");
-        return new Result(true, StatusCode.SUCCESS, "Completion Successful", completedAppearance);
+        return new Result(true, StatusCode.SUCCESS, "Completion Successful", completedAppearanceDto);
+    }
+
+    @PostMapping("/{requestId}/cancel")
+    public Result cancelRequest(@PathVariable Long requestId){
+        Appearance cancelledAppearance = this.appearanceService.cancel(requestId);
+        if(cancelledAppearance.getAssignedSuperFrog() != null){
+            emailService.sendEmail(cancelledAppearance.getAssignedSuperFrog().getEmail(),"superfrogschedulercite30363@gmail.com",
+                    "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled","Dear Superfrog," + "\n" + "An existing appearance request (ID: " + cancelledAppearance.getRequestId().toString() + " has been cancelled. \n"
+                            + "You have been unassigned from the event.");
+            cancelledAppearance = this.userService.unassign(requestId);
+        }
+        AppearanceDto cancelledAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(cancelledAppearance);
+        emailService.sendEmail(cancelledAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled", "Dear Customer," + "\n" + "Your SuperFrog appearance request has been cancelled. \n"
+                        + "We apologize for any inconvenience and thank you for your business\n");
+        return new Result(true, StatusCode.SUCCESS, "Rejection Successful", cancelledAppearanceDto);
     }
 
     @GetMapping("/approvals/open")

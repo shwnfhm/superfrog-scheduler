@@ -89,6 +89,15 @@ public class AppearanceService {
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
     }
 
+    public Appearance cancel(Long requestId){
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setStatus(AppearanceStatus.CANCELLED);
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
     public List<Appearance> getOpenApprovedAppearances(){
         List<Appearance> approvedAppearances = this.appearanceRepository.findByStatus(AppearanceStatus.APPROVED);
         List<Appearance> openApprovedAppearances = new ArrayList<>();
