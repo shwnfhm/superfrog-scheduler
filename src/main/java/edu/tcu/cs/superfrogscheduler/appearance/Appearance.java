@@ -91,7 +91,6 @@ public class Appearance implements Serializable{
     @JsonBackReference
     private User assignedSuperFrog;
 
-
     public Appearance() {
 
     }

@@ -32,6 +32,8 @@ public record UserDto(
         @NotEmpty(message = "Address is required")
         String address,
 
-        List<AppearanceDto> appearanceDtos
+        List<AppearanceDto> appearanceDtos,
+
+        List<AppearanceDto> completedAppearanceDtos
 ) {
 }

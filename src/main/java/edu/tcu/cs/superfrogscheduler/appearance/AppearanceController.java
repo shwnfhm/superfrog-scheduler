@@ -7,6 +7,7 @@ import edu.tcu.cs.superfrogscheduler.email.EmailService;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
 import edu.tcu.cs.superfrogscheduler.user.User;
+import edu.tcu.cs.superfrogscheduler.user.UserService;
 import edu.tcu.cs.superfrogscheduler.user.converter.UserDtoToUserConverter;
 import edu.tcu.cs.superfrogscheduler.user.dto.UserDto;
 import edu.tcu.cs.superfrogscheduler.appearance.export.ExcelExporter;
@@ -28,18 +29,21 @@ public class AppearanceController {
 
     private AppearanceService appearanceService;
 
+    private UserService userService;
+
     private EmailService emailService;
     private AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter;
 
     private AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter;
     private UserDtoToUserConverter userDtoToUserConverter;
 
-    public AppearanceController(AppearanceService appearanceService, EmailService emailService, AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter, AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter, UserDtoToUserConverter userDtoToUserConverter) {
+    public AppearanceController(AppearanceService appearanceService, EmailService emailService, AppearanceDtoToAppearanceConverter appearanceDtoToAppearanceConverter, AppearanceToAppearanceDtoConverter appearanceToAppearanceDtoConverter, UserDtoToUserConverter userDtoToUserConverter, UserService userService) {
         this.appearanceService = appearanceService;
         this.appearanceDtoToAppearanceConverter = appearanceDtoToAppearanceConverter;
         this.appearanceToAppearanceDtoConverter = appearanceToAppearanceDtoConverter;
         this.userDtoToUserConverter = userDtoToUserConverter;
         this.emailService = emailService;
+        this.userService = userService;
     }
 
     @PostMapping
@@ -118,6 +122,7 @@ public class AppearanceController {
     @PostMapping("/{requestId}/complete")
     public Result completeAppearance(@PathVariable Long requestId){
         Appearance completedAppearance = this.appearanceService.complete(requestId);
+        this.userService.completeAppearance(requestId);
         emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Appearance Complete", "Dear Spirit Director," + "\n" + "Appearance " + completedAppearance.getRequestId().toString() + " has been completed\n"
                         + "by SuperFrog user " + completedAppearance.getAssignedSuperFrog().getId().toString() + ".\n");

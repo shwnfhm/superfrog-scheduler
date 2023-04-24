@@ -22,10 +22,17 @@ public class UserToUserDtoConverter implements Converter<User, UserDto> {
     }
 
     public UserDto convert(User source) {
+
         List<AppearanceDto> appearanceDtos = new ArrayList<>();
-        for(int i = 0; i < source.getAppearances().size(); i++){
-            appearanceDtos.add(this.appearanceToAppearanceDtoConverter.convert(source.getAppearances().get(i)));
+        for(int i = 0; i < source.getAssignedAppearances().size(); i++){
+            appearanceDtos.add(this.appearanceToAppearanceDtoConverter.convert(source.getAssignedAppearances().get(i)));
         }
+
+        List<AppearanceDto> completedAppearanceDtos = new ArrayList<>();
+        for(int i = 0; i < source.getCompletedAppearances().size(); i++){
+            completedAppearanceDtos.add(this.appearanceToAppearanceDtoConverter.convert(source.getCompletedAppearances().get(i)));
+        }
+
         final UserDto userDto = new UserDto(source.getId(),
                 source.getEmail(),
                 source.getPhoneNumber(),
@@ -36,7 +43,8 @@ public class UserToUserDtoConverter implements Converter<User, UserDto> {
                 source.isInternational(),
                 source.getPaymentPreference(),
                 source.getAddress(),
-                appearanceDtos);
+                appearanceDtos,
+                completedAppearanceDtos);
         return userDto;
     }
 }

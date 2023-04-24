@@ -68,10 +68,15 @@ public class User implements Serializable {
 
     private PaymentPreference paymentPreference;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "assignedSuperFrog")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
-    @Fetch(FetchMode.JOIN)
-    private List<Appearance> appearances = new ArrayList<>();
+    @Fetch(FetchMode.SELECT)
+    private List<Appearance> assignedAppearances = new ArrayList<>();
+
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    private List<Appearance> completedAppearances = new ArrayList<>();
 
     public User() {
 
@@ -195,22 +200,31 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public List<Appearance> getAppearances() {
-        return appearances;
+    public List<Appearance> getAssignedAppearances() {
+        return assignedAppearances;
     }
 
-    public void addAppearance(Appearance appearance){
+    public void addAssignedAppearance(Appearance appearance){
         appearance.setAssignedSuperFrog(this);
-        this.appearances.add(appearance);
+        this.assignedAppearances.add(appearance);
     }
 
-    public void removeAppearance(Appearance appearance){
+    public void removeAssignedAppearance(Appearance appearance){
         appearance.setAssignedSuperFrog(null);
-        this.appearances.remove(appearance);
+        this.assignedAppearances.remove(appearance);
     }
 
-    public void setAppearances(List<Appearance> appearances){
-        this.appearances = appearances;
+    public void setAssignedAppearances(List<Appearance> appearances){
+        this.assignedAppearances = appearances;
+    }
+
+    public void addCompletedAppearance(Appearance appearance){
+        this.assignedAppearances.remove(appearance);
+        this.completedAppearances.add(appearance);
+    }
+
+    public List<Appearance> getCompletedAppearances(){
+        return completedAppearances;
     }
 
 }
