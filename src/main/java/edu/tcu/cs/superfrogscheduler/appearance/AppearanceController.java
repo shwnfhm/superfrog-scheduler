@@ -52,7 +52,7 @@ public class AppearanceController {
         Appearance savedNewAppearance = this.appearanceService.save(newAppearance);
         AppearanceDto savedNewAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(savedNewAppearance);
         emailService.sendEmail(savedNewAppearance.getReqEmail(),"superfrogschedulercite30363@gmail.com",
-                                "SuperFrog Request " + savedNewAppearance.getRequestId().toString() + " Received","Dear Customer," + "\n" + "We are glad to inform you that your request (ID: " + savedNewAppearance.getRequestId().toString() + " has been submitted. \n"
+                                "SuperFrog Request " + savedNewAppearance.getRequestId().toString() + " Received","Dear Customer," + "\n" + "We are glad to inform you that your request (ID: " + savedNewAppearance.getRequestId().toString() + " ) has been submitted. \n"
                         + "Your request will be reviewed and a SuperFrog will be assigned if approved\n" +
                         "Thank you!");
         emailService.sendEmail("superfrogschedulercite30363@gmail.com","superfrogschedulercite30363@gmail.com",
@@ -84,17 +84,17 @@ public class AppearanceController {
         Appearance updatedAppearance = this.appearanceService.update(requestId, update);
         if(updatedAppearance.getAssignedSuperFrog() != null) {
             emailService.sendEmail(updatedAppearance.getAssignedSuperFrog().getEmail(),"superfrogschedulercite30363@gmail.com",
-                    "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Unassigned","Dear Superfrog," + "\n" + "A customer has modified an existing appearance request (ID: " + updatedAppearance.getRequestId().toString() + ". \n"
+                    "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Unassigned","Dear Superfrog," + "\n" + "A customer has modified an existing appearance request (ID: " + updatedAppearance.getRequestId().toString() + "). \n"
                     + "You have been unassigned from the event.");
             updatedAppearance = this.userService.unassign(requestId);
         }
         AppearanceDto updatedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(updatedAppearance);
         emailService.sendEmail(updatedAppearance.getReqEmail(),"superfrogschedulercite30363@gmail.com",
-                "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Modified","Dear Customer," + "\n" + "We are glad to inform you that your request (ID: " + updatedAppearance.getRequestId().toString() + " modification has been submitted. \n"
+                "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Modified","Dear Customer," + "\n" + "We are glad to inform you that your request (ID: " + updatedAppearance.getRequestId().toString() + " ) modification has been submitted. \n"
                         + "Your modified request will be reviewed and a SuperFrog will be assigned if approved\n" +
                         "Thank you!");
         emailService.sendEmail("superfrogschedulercite30363@gmail.com","superfrogschedulercite30363@gmail.com",
-                "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Modified","Dear Spirit Director," + "\n" + "A customer has modified an existing appearance request (ID: " + updatedAppearance.getRequestId().toString() + ". \n"
+                "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Modified","Dear Spirit Director," + "\n" + "A customer has modified an existing appearance request (ID: " + updatedAppearance.getRequestId().toString() + "). \n"
         );
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedAppearanceDto);
     }
@@ -103,7 +103,7 @@ public class AppearanceController {
     public Result approveRequest(@PathVariable Long requestId){
         Appearance approvedAppearance = this.appearanceService.approve(requestId);
         emailService.sendEmail(approvedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
-                "SuperFrog Request Approved!", "Dear Customer," + "\n" + "We are happy to inform you that your SuperFrog appearance request has been approved! \n"
+                "SuperFrog Request " + approvedAppearance.getRequestId().toString() + " Approved!", "Dear Customer," + "\n" + "We are happy to inform you that your SuperFrog appearance request (ID: " + approvedAppearance.getRequestId().toString() + " ) has been approved! \n"
                         + "We will assign a SuperFrog to your event as soon as possible\n" +
                         "Thank you for your business");
         return new Result(true, StatusCode.SUCCESS, "Approval Successful", approvedAppearance);
@@ -113,7 +113,7 @@ public class AppearanceController {
     public Result rejectRequest(@PathVariable Long requestId){
         Appearance rejectedAppearance = this.appearanceService.reject(requestId);
         emailService.sendEmail(rejectedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
-                "SuperFrog Request Rejected", "Dear Customer," + "\n" + "We regret to inform you that your SuperFrog appearance request has been rejected. \n"
+                "SuperFrog Request " + rejectedAppearance.getRequestId().toString() + " Rejected", "Dear Customer," + "\n" + "We regret to inform you that your SuperFrog appearance request (ID: " + rejectedAppearance.getRequestId().toString() + " ) has been rejected. \n"
                         + "We hope you will understand and thank you for your business\n");
         return new Result(true, StatusCode.SUCCESS, "Rejection Successful", rejectedAppearance);
     }
@@ -160,6 +160,8 @@ public class AppearanceController {
         emailService.sendEmail(cancelledAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled", "Dear Customer," + "\n" + "Your SuperFrog appearance request has been cancelled. \n"
                         + "We apologize for any inconvenience and thank you for your business\n");
+        emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled", "Dear Spirit Director," + "\n" + "The request with ID " + cancelledAppearance.getRequestId().toString() + " has been cancelled.\n");
         return new Result(true, StatusCode.SUCCESS, "Rejection Successful", cancelledAppearanceDto);
     }
 
