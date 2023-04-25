@@ -1,8 +1,10 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceQuery;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceService;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
+import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
 import edu.tcu.cs.superfrogscheduler.email.EmailService;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
@@ -12,6 +14,7 @@ import edu.tcu.cs.superfrogscheduler.user.dto.UserDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -123,6 +126,16 @@ public class UserController {
                         + "We will try to assign a replacement as soon as possible\n" +
                         "Thank you for your patience");
         return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
+    }
+
+    @GetMapping("/criteria")
+    public Result searchUsers(@Valid @RequestBody UserQuery userQuery){
+        List<User> resultUsers = this.userService.searchUsers(userQuery);
+        List<UserDto> resultUsersDto = new ArrayList<>();
+        for(int i = 0; i<resultUsers.size(); i++){
+            resultUsersDto.add(this.userToUserDtoConverter.convert(resultUsers.get(i)));
+        }
+        return new Result(true, StatusCode.SUCCESS, "Search Successful", resultUsersDto);
     }
 
 }

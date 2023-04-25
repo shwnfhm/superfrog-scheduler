@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AppearanceRepository extends JpaRepository<Appearance, Long> {
+public interface AppearanceRepository extends JpaRepository<Appearance, Long>, CustomAppearanceRepository {
     List<Appearance> findByRequestIdIn(List<Long> appearanceRequestIdList);
 
     List<Appearance> findByStatus(AppearanceStatus status);

@@ -1,6 +1,7 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceQuery;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceRepository;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
@@ -119,6 +120,10 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
         appearanceToBeCompleted.getAssignedSuperFrog().addCompletedAppearance(appearanceToBeCompleted);
         return this.appearanceRepository.save(appearanceToBeCompleted);
+    }
+
+    public List<User> searchUsers(UserQuery query){
+        return this.userRepository.searchByCriteria(query);
     }
 
     @Override

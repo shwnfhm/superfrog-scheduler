@@ -1,6 +1,7 @@
 package edu.tcu.cs.superfrogscheduler.appearance;
 
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
+import edu.tcu.cs.superfrogscheduler.user.User;
 import edu.tcu.cs.superfrogscheduler.user.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -107,5 +108,17 @@ public class AppearanceService {
         }
         return openApprovedAppearances;
     }
+
+
+    public List<Appearance> searchAppearances(AppearanceQuery query){
+        Long uId = -1L;
+        if(query.assignedEmail() != "" && query.assignedEmail() != null) {
+            User u = this.userRepository.findByEmail(query.assignedEmail()).get();
+            uId = u.getId();
+        }
+        return this.appearanceRepository.searchByCriteria(query, uId);
+    }
+
+
 
 }

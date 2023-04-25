@@ -173,4 +173,14 @@ public class AppearanceController {
         return new Result(true, StatusCode.SUCCESS, "Get Open Approved Appearances Successful", openApprovedAppearancesDto);
     }
 
+    @GetMapping("/criteria")
+    public Result searchAppearances(@Valid @RequestBody AppearanceQuery appearanceQuery){
+        List<Appearance> resultAppearances = this.appearanceService.searchAppearances(appearanceQuery);
+        List<AppearanceDto> resultAppearancesDto = new ArrayList<>();
+        for(int i = 0; i<resultAppearances.size(); i++){
+            resultAppearancesDto.add(this.appearanceToAppearanceDtoConverter.convert(resultAppearances.get(i)));
+        }
+        return new Result(true, StatusCode.SUCCESS, "Search Successful", resultAppearancesDto);
+    }
+
 }
