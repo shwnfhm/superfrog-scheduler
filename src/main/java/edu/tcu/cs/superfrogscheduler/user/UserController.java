@@ -1,10 +1,8 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
-import edu.tcu.cs.superfrogscheduler.appearance.AppearanceQuery;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceService;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
-import edu.tcu.cs.superfrogscheduler.appearance.dto.AppearanceDto;
 import edu.tcu.cs.superfrogscheduler.email.EmailService;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;

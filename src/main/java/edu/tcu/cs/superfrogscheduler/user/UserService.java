@@ -1,7 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.user;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
-import edu.tcu.cs.superfrogscheduler.appearance.AppearanceQuery;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceRepository;
 import edu.tcu.cs.superfrogscheduler.appearance.AppearanceStatus;
 import edu.tcu.cs.superfrogscheduler.system.exception.ObjectNotFoundException;
