@@ -97,6 +97,20 @@ public class AppearanceController {
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedAppearanceDto);
     }
 
+    @PutMapping("/admin/{requestId}")
+    public Result adminUpdateAppearance(@PathVariable Long requestId, @Valid @RequestBody AppearanceDto appearanceDto){
+        Appearance update = this.appearanceDtoToAppearanceConverter.convert(appearanceDto);
+        Appearance updatedAppearance = this.appearanceService.updateAdmin(requestId, update);
+
+        AppearanceDto updatedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(updatedAppearance);
+        emailService.sendEmail(updatedAppearance.getReqEmail(),"superfrogschedulercite30363@gmail.com",
+                "SuperFrog Request " + updatedAppearance.getRequestId().toString() + " Modified","Dear Customer," + "\n" + "Your request (ID: " + updatedAppearance.getRequestId().toString() + " ) has been modified by the Spirit Director. \n"
+                        + "Please check your updated request details using your request ID for more information\n" +
+                        "Thank you!");
+        return new Result(true, StatusCode.SUCCESS, "Update Success", updatedAppearanceDto);
+
+    }
+
     @PostMapping("/{requestId}/approval")
     public Result approveRequest(@PathVariable Long requestId){
         Appearance approvedAppearance = this.appearanceService.approve(requestId);

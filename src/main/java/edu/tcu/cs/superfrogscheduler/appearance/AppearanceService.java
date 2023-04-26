@@ -40,8 +40,32 @@ public class AppearanceService {
                 .map(oldAppearance -> {
                     oldAppearance.setAddress(update.getAddress());
                     oldAppearance.setDesc(update.getDesc());
-                    oldAppearance.setRequestId(requestId);
                     oldAppearance.setStatus(AppearanceStatus.PENDING);
+                    oldAppearance.setAppearanceType(update.getAppearanceType());
+                    oldAppearance.setExpenses(update.getExpenses());
+                    oldAppearance.setMileage(update.getMileage());
+                    oldAppearance.setEndTime(update.getEndTime());
+                    oldAppearance.setStartTime(update.getStartTime());
+                    oldAppearance.setEventDate(update.getEventDate());
+                    oldAppearance.setInstructions(update.getInstructions());
+                    oldAppearance.setOnCampus(update.isOnCampus());
+                    oldAppearance.setTitle(update.getTitle());
+                    oldAppearance.setReqFirstName(update.getReqFirstName());
+                    oldAppearance.setReqLastName(update.getReqLastName());
+                    oldAppearance.setReqEmail(update.getReqEmail());
+                    oldAppearance.setReqPhoneNumber(update.getReqPhoneNumber());
+                    oldAppearance.setOrgName(update.getOrgName());
+                    oldAppearance.setOutsideOrg(update.getOutsideOrg());
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
+
+    public Appearance updateAdmin(Long requestId, Appearance update) {
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setAddress(update.getAddress());
+                    oldAppearance.setDesc(update.getDesc());
                     oldAppearance.setAppearanceType(update.getAppearanceType());
                     oldAppearance.setExpenses(update.getExpenses());
                     oldAppearance.setMileage(update.getMileage());

@@ -80,6 +80,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR")// Protect the endpoint.
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG")
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG")
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/admin/**").hasAuthority("ROLE_SPIRITDIRECTOR")
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Protect the endpoint.
                         .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Protect the endpoint.
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll() // Explicitly fallback to antMatcher inside requestMatchers.
