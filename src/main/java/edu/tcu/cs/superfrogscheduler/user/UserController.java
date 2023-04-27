@@ -79,7 +79,7 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedUserDto);
     }
 
-    @DeleteMapping("/{userId}/active")
+    @DeleteMapping("/active/{userId}")
     public Result deactivateUser(@PathVariable Long userId){
         User deactivatedUser = this.userService.deactivate(userId);
         UserDto deactivatedUserDto = this.userToUserDtoConverter.convert(deactivatedUser);
@@ -89,7 +89,7 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Deactivation Success", deactivatedUserDto);
     }
 
-    @PostMapping("/{userId}/active")
+    @PostMapping("/active/{userId}")
     public Result activateUser(@PathVariable Long userId){
         User activatedUser = this.userService.activate(userId);
         UserDto activatedUserDto = this.userToUserDtoConverter.convert(activatedUser);
@@ -99,7 +99,7 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Activation Successful", activatedUserDto);
     }
 
-    @PostMapping("/{userId}/{requestId}")
+    @PostMapping("/assignments/{userId}/{requestId}")
     public Result assignUserToAppearance(@PathVariable Long requestId, @PathVariable Long userId){
         Appearance oldAppearance = this.appearanceService.findById(requestId);
         if(oldAppearance.getStatus() == AppearanceStatus.ASSIGNED){
@@ -116,7 +116,7 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Assignment Successful", updatedAppearance);
     }
 
-    @DeleteMapping("/{userId}/{requestId}")
+    @DeleteMapping("/assignments/{userId}/{requestId}")
     public Result removeUserFromAppearance(@PathVariable Long requestId){
         Appearance updatedAppearance = this.userService.unassign(requestId);
         emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",

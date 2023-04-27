@@ -111,7 +111,7 @@ public class AppearanceController {
 
     }
 
-    @PostMapping("/{requestId}/approval")
+    @PostMapping("/approval/{requestId}")
     public Result approveRequest(@PathVariable Long requestId){
         Appearance approvedAppearance = this.appearanceService.approve(requestId);
         emailService.sendEmail(approvedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
@@ -121,7 +121,7 @@ public class AppearanceController {
         return new Result(true, StatusCode.SUCCESS, "Approval Successful", approvedAppearance);
     }
 
-    @DeleteMapping("/{requestId}/approval")
+    @DeleteMapping("/approval/{requestId}")
     public Result rejectRequest(@PathVariable Long requestId){
         Appearance rejectedAppearance = this.appearanceService.reject(requestId);
         emailService.sendEmail(rejectedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
@@ -147,7 +147,7 @@ public class AppearanceController {
         excelExporter.export(response);
     }
 
-    @PostMapping("/{requestId}/complete")
+    @PostMapping("/complete/{requestId}")
     public Result completeAppearance(@PathVariable Long requestId){
         Appearance completedAppearance = this.appearanceService.complete(requestId);
         this.userService.completeAppearance(requestId);
@@ -158,7 +158,7 @@ public class AppearanceController {
         return new Result(true, StatusCode.SUCCESS, "Completion Successful", completedAppearanceDto);
     }
 
-    @PostMapping("/{requestId}/cancel")
+    @PostMapping("/cancel/{requestId}")
     public Result cancelRequest(@PathVariable Long requestId){
         Appearance cancelledAppearance = this.appearanceService.cancel(requestId);
         if(cancelledAppearance.getAssignedSuperFrog() != null){

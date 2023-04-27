@@ -65,24 +65,31 @@ public class SecurityConfiguration {
         return http
                 // It is recommended to secure your application at the API endpoint level.
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances").permitAll()
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances").hasAuthority("ROLE_SUPERFROG")
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/**").hasAuthority("ROLE_SUPERFROG")
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/appearances/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").hasAuthority("ROLE_SPIRITDIRECTOR")
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/payment/payment-forms").hasAuthority("ROLE_SPIRITDIRECTOR")
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/approvals/open").hasAuthority("ROLE_SUPERFROG")
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Protect the endpoint.
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR")// Protect the endpoint.
-                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG")
-                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG")
-                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/admin/**").hasAuthority("ROLE_SPIRITDIRECTOR")
-                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Protect the endpoint.
-                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Protect the endpoint.
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances").permitAll() // Anyone can submit an appearance request
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can get all appearances
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/approval/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can approve/reject requests
+                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/appearances/approval/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can approve/reject requests
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can generate performance reports
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/complete/**").hasAuthority("ROLE_SUPERFROG") // Superfrogs need to be able to mark events as complete
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/cancel/**").permitAll() // Customers can cancel their requests
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/criteria").permitAll() // Not sure about this one.
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/criteria").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can search for users
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/admin/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can change request details without changing status
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/**").permitAll() // Customer can get appearance information if they have the ID
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/**").permitAll() // Customer can edit appearance request information
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/login").permitAll() // Anyone can login
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/payment/payment-forms").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can generate payment forms
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/approvals/open").hasAuthority("ROLE_SUPERFROG") // Superfrogs can get open approved appearances
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG") // Superfrog can get his/her own account information
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG") // Superfrog can edit his/her own account
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can get Users
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/active/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can activate/deactivate users
+                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/active/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can activate/deactivate users
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can add Superfrogs
+                        .requestMatchers(HttpMethod.GET, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can pull up all users
+                        .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can edit any user's information
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/assignments/**").hasAuthority("ROLE_SUPERFROG") // Superfrog should be able to assign themselves
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/assignments/**").hasAuthority("ROLE_SUPERFROG") // Superfrog should be able to unassign themselves
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll() // Explicitly fallback to antMatcher inside requestMatchers.
                         // Disallow everything else.
                         .anyRequest().authenticated() // Always a good idea to put this as last.
