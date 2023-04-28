@@ -204,11 +204,15 @@ public class User implements Serializable {
 
     public void addAssignedAppearance(Appearance appearance){
         appearance.setAssignedSuperFrog(this);
+        appearance.setAssignedName(this.firstName + " " + this.lastName);
+        appearance.setAssignedId(this.id);
         this.assignedAppearances.add(appearance);
     }
 
     public void removeAssignedAppearance(Appearance appearance){
         appearance.setAssignedSuperFrog(null);
+        appearance.setAssignedName(null);
+        appearance.setAssignedId(null);
         this.assignedAppearances.remove(appearance);
     }
 

@@ -30,6 +30,8 @@ public class AppearanceDtoToAppearanceConverter implements Converter<AppearanceD
         converted.setReqPhoneNumber(source.reqPhoneNumber());
         converted.setOrgName(source.orgName());
         converted.setOutsideOrg(source.outsideOrg());
+        converted.setAssignedName(source.assignedName());
+        converted.setAssignedId(source.assignedId());
         return converted;
     }
 }

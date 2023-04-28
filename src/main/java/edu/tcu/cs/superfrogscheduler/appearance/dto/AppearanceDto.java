@@ -49,6 +49,10 @@ public record AppearanceDto(
         String expenses,
 
         @NotEmpty(message = "Outside org is required")
-        String outsideOrg
+        String outsideOrg,
+
+        String assignedName,
+
+        Long assignedId
 ) {
 }

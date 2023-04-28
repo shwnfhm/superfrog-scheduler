@@ -88,6 +88,10 @@ public class Appearance implements Serializable{
     @JsonBackReference
     private User assignedSuperFrog;
 
+    private String assignedName;
+
+    private Long assignedId;
+
     public Appearance() {
 
     }
@@ -256,6 +260,19 @@ public class Appearance implements Serializable{
         this.assignedSuperFrog = assignee;
     }
 
+    public String getAssignedName() {
+        return assignedName;
+    }
 
+    public void setAssignedName(String assignedName) {
+        this.assignedName = assignedName;
+    }
 
+    public Long getAssignedId() {
+        return assignedId;
+    }
+
+    public void setAssignedId(Long assignedId) {
+        this.assignedId = assignedId;
+    }
 }

@@ -29,7 +29,9 @@ public class AppearanceToAppearanceDtoConverter implements Converter<Appearance,
                 source.isOnCampus(),
                 source.getInstructions(),
                 source.getExpenses(),
-                source.getOutsideOrg()
+                source.getOutsideOrg(),
+                source.getAssignedName(),
+                source.getAssignedId()
         );
         return appearanceDto;
     }
