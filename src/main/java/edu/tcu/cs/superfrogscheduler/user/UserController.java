@@ -120,9 +120,12 @@ public class UserController {
     public Result removeUserFromAppearance(@PathVariable Long requestId){
         Appearance updatedAppearance = this.userService.unassign(requestId);
         emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
-                "SuperFrog Unassigned", "Dear Customer," + "\n" + "We regret to inform you that the SuperFrog assigned to your event has been removed \n"
+                "SuperFrog Unassigned for Request " + updatedAppearance.getRequestId().toString(), "Dear Customer," + "\n" + "We regret to inform you that the SuperFrog assigned to your event (ID: " + updatedAppearance.getRequestId().toString() + " ) has been removed \n"
                         + "We will try to assign a replacement as soon as possible\n" +
                         "Thank you for your patience");
+        emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
+                "SuperFrog Unassigned for Request " + updatedAppearance.getRequestId().toString(), "Dear Spirit Director," + "\n" + "The SuperFrog assigned to event ID: " + updatedAppearance.getRequestId().toString() + " has been removed/unassigned. \n"
+        );
         return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
     }
 
