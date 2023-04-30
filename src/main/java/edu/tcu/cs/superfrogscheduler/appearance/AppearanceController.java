@@ -139,7 +139,7 @@ public class AppearanceController {
         return new Result(true, StatusCode.SUCCESS, "Rejection Successful", rejectedAppearance);
     }
 
-    @GetMapping("/excel")
+    @PostMapping("/excel")
     public void exportToExcel(@Valid @RequestBody AppearanceQuery appearanceQuery, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
