@@ -140,18 +140,18 @@ public class AppearanceController {
     }
 
     @GetMapping("/excel")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
+    public void exportToExcel(@Valid @RequestBody AppearanceQuery appearanceQuery, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+        String headerValue = "attachment; filename=AppearanceReport_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
-        List<Appearance> listAppearances = appearanceService.findAll();
+        List<Appearance> resultAppearances = this.appearanceService.searchAppearances(appearanceQuery);
 
-        ExcelExporter excelExporter = new ExcelExporter(listAppearances);
+        ExcelExporter excelExporter = new ExcelExporter(resultAppearances);
 
         excelExporter.export(response);
     }

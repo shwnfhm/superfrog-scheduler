@@ -26,7 +26,7 @@ public class ExcelExporter {
 
 
     private void writeHeaderLine() {
-        sheet = workbook.createSheet("Users");
+        sheet = workbook.createSheet("CompletedAppearanceReport");
 
         Row row = sheet.createRow(0);
 
@@ -37,10 +37,11 @@ public class ExcelExporter {
         style.setFont(font);
 
         createCell(row, 0, "Request ID", style);
-        createCell(row, 1, "E-mail", style);
-        createCell(row, 2, "Superfrog Full Name", style);
-        createCell(row, 3, "Appearance Type", style);
-
+        createCell(row, 1, "Appearance Title", style);
+        createCell(row, 2, "Appearance Type", style);
+        createCell(row, 3, "Request E-mail", style);
+        createCell(row, 4, "Superfrog Full Name", style);
+        createCell(row, 5, "Superfrog Email", style);
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
@@ -69,10 +70,11 @@ public class ExcelExporter {
             int columnCount = 0;
 
             createCell(row, columnCount++, appearance.getRequestId().toString(), style);
+            createCell(row, columnCount++, appearance.getTitle(), style);
+            createCell(row, columnCount++, appearance.getAppearanceType().toString(), style);
             createCell(row, columnCount++, appearance.getReqEmail(), style);
             createCell(row, columnCount++, appearance.getAssignedSuperFrog().getFirstName() + " " + appearance.getAssignedSuperFrog().getLastName(), style);
-            createCell(row, columnCount++, appearance.getAppearanceType().toString(), style);
-
+            createCell(row, columnCount++, appearance.getAssignedSuperFrog().getEmail(), style);
         }
     }
 
