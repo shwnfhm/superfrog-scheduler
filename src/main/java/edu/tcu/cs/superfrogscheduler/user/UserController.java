@@ -109,6 +109,10 @@ public class UserController {
                             "Thank you!");
         }
         Appearance updatedAppearance = this.userService.assign(requestId, userId);
+        emailService.sendEmail(updatedAppearance.getAssignedSuperFrog().getEmail(), "superfrogschedulercite30363@gmail.com",
+                "Appearance ID " + oldAppearance.getRequestId().toString() + " Assigned", "Dear SuperFrog," + "\n" + "You have been successfully assigned to appearance " + updatedAppearance.getRequestId().toString() + " \n"
+                        + "Please make any necessary preparations for this event.\n" +
+                        "Thank you!");
         emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Assigned", "Dear Customer," + "\n" + "We are glad to inform you that a SuperFrog has been assigned to your event \n"
                         + "Please submit payment if you have not already\n" +
@@ -118,11 +122,19 @@ public class UserController {
 
     @DeleteMapping("/assignments/{userId}/{requestId}")
     public Result removeUserFromAppearance(@PathVariable Long requestId){
+        Appearance oldAppearance = this.appearanceService.findById(requestId);
+        emailService.sendEmail(oldAppearance.getAssignedSuperFrog().getEmail(), "superfrogschedulercite30363@gmail.com",
+                "Appearance ID " + oldAppearance.getRequestId().toString() + " Unassigned", "Dear SuperFrog," + "\n" + "You have been unassigned from appearance " + oldAppearance.getRequestId().toString() + " .\n"
+                        + "We apologize for any inconvenience\n");
         Appearance updatedAppearance = this.userService.unassign(requestId);
-        emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
-                "SuperFrog Unassigned for Request " + updatedAppearance.getRequestId().toString(), "Dear Customer," + "\n" + "We regret to inform you that the SuperFrog assigned to your event (ID: " + updatedAppearance.getRequestId().toString() + " ) has been removed \n"
-                        + "We will try to assign a replacement as soon as possible\n" +
-                        "Thank you for your patience");
+        if(updatedAppearance.getStatus() == AppearanceStatus.APPROVED) {
+            emailService.sendEmail(updatedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
+                    "SuperFrog Unassigned for Request " + updatedAppearance.getRequestId().toString(), "Dear Customer," + "\n" + "We regret to inform you that the SuperFrog assigned to your event (ID: " + updatedAppearance.getRequestId().toString() + " ) has been removed \n"
+                            + "We will try to assign a replacement as soon as possible\n" +
+                            "Thank you for your patience");
+            List<User> allUsers = this.userService.findAll();
+            emailService.emailAllUsers(allUsers, requestId);
+        }
         emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Unassigned for Request " + updatedAppearance.getRequestId().toString(), "Dear Spirit Director," + "\n" + "The SuperFrog assigned to event ID: " + updatedAppearance.getRequestId().toString() + " has been removed/unassigned. \n"
         );
@@ -138,5 +150,4 @@ public class UserController {
         }
         return new Result(true, StatusCode.SUCCESS, "Search Successful", resultUsersDto);
     }
-
 }

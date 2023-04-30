@@ -24,7 +24,6 @@ public class UserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, AppearanceRepository appearanceRepository, PasswordEncoder passwordEncoder) {
-
         this.userRepository = userRepository;
         this.appearanceRepository = appearanceRepository;
         this.passwordEncoder = passwordEncoder;
@@ -132,5 +131,4 @@ public class UserService implements UserDetailsService {
                 .map(user -> new MyUserPrincipal(user)) // If found, wrap the returned user instance in a MyUserPrincipal instance.
                 .orElseThrow(() -> new UsernameNotFoundException("email " + email + " is not found.")); // Otherwise, throw an exception.
     }
-
 }
