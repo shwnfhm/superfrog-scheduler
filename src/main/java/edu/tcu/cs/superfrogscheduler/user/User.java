@@ -229,4 +229,8 @@ public class User implements Serializable {
         return completedAppearances;
     }
 
+    public void setCompletedAppearances(List<Appearance> appearances){
+        this.completedAppearances = appearances;
+    }
+
 }

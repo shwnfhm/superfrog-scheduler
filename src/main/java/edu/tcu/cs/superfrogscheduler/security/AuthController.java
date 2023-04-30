@@ -68,7 +68,7 @@ public class AuthController {
         User updatedUser = this.authService.update(authentication, update);
         UserDto updatedUserDto = this.userToUserDtoConverter.convert(updatedUser);
         emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
-                "SuperFrog User Update", "Dear Spirit Director," + "\n" + "User " + updatedUser.getId().toString() + " has updated their information.\n"
+                "SuperFrog User (ID: " + updatedUserDto.id().toString() + ") Updated", "Dear Spirit Director," + "\n" + "User " + updatedUser.getId().toString() + " has updated their profile information.\n"
                         );
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedUserDto);
     }

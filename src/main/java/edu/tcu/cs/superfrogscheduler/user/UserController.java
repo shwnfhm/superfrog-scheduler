@@ -121,7 +121,7 @@ public class UserController {
     }
 
     @DeleteMapping("/assignments/{userId}/{requestId}")
-    public Result removeUserFromAppearance(@PathVariable Long requestId){
+    public Result removeUserFromAppearance(@PathVariable Long requestId, @PathVariable Long userId){
         Appearance oldAppearance = this.appearanceService.findById(requestId);
         emailService.sendEmail(oldAppearance.getAssignedSuperFrog().getEmail(), "superfrogschedulercite30363@gmail.com",
                 "Appearance ID " + oldAppearance.getRequestId().toString() + " Unassigned", "Dear SuperFrog," + "\n" + "You have been unassigned from appearance " + oldAppearance.getRequestId().toString() + " .\n"
@@ -136,7 +136,7 @@ public class UserController {
             emailService.emailAllUsers(allUsers, requestId);
         }
         emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
-                "SuperFrog Unassigned for Request " + updatedAppearance.getRequestId().toString(), "Dear Spirit Director," + "\n" + "The SuperFrog assigned to event ID: " + updatedAppearance.getRequestId().toString() + " has been removed/unassigned. \n"
+                "SuperFrog ID: " + userId.toString() + " Unassigned for Request " + updatedAppearance.getRequestId().toString(), "Dear Spirit Director," + "\n" + "The SuperFrog assigned to event ID: " + updatedAppearance.getRequestId().toString() + " has been removed/unassigned. \n"
         );
         return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
     }
