@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -150,9 +151,16 @@ public class AppearanceService {
 
     public List<Appearance> searchAppearances(AppearanceQuery query){
         Long uId = -1L;
+        User user;
         if(query.assignedEmail() != "" && query.assignedEmail() != null) {
-            User u = this.userRepository.findByEmail(query.assignedEmail()).get();
-            uId = u.getId();
+            Optional<User> u = this.userRepository.findByEmail(query.assignedEmail());
+            if(u.isPresent()){
+                user = u.get();
+                uId = user.getId();
+            }
+            else{
+                return new ArrayList<>();
+            }
         }
         return this.appearanceRepository.searchByCriteria(query, uId);
     }
