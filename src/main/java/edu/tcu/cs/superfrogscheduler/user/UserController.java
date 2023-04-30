@@ -141,7 +141,7 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Unassignment Successful", updatedAppearance);
     }
 
-    @GetMapping("/criteria")
+    @PostMapping("/criteria")
     public Result searchUsers(@Valid @RequestBody UserQuery userQuery){
         List<User> resultUsers = this.userService.searchUsers(userQuery);
         List<UserDto> resultUsersDto = new ArrayList<>();

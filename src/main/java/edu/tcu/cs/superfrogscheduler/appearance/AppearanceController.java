@@ -198,7 +198,7 @@ public class AppearanceController {
         return new Result(true, StatusCode.SUCCESS, "Get Open Approved Appearances Successful", openApprovedAppearancesDto);
     }
 
-    @GetMapping("/criteria")
+    @PostMapping("/criteria")
     public Result searchAppearances(@Valid @RequestBody AppearanceQuery appearanceQuery){
         List<Appearance> resultAppearances = this.appearanceService.searchAppearances(appearanceQuery);
         List<AppearanceDto> resultAppearancesDto = new ArrayList<>();
