@@ -108,8 +108,9 @@ public class UserService implements UserDetailsService {
     public Appearance unassign(Long requestId){
         Appearance appearanceToBeUnassigned = this.appearanceRepository.findById(requestId)
                 .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
-
-        appearanceToBeUnassigned.setStatus(AppearanceStatus.APPROVED);
+        if(appearanceToBeUnassigned.getStatus() == AppearanceStatus.ASSIGNED) {
+            appearanceToBeUnassigned.setStatus(AppearanceStatus.APPROVED);
+        }
         appearanceToBeUnassigned.getAssignedSuperFrog().removeAssignedAppearance(appearanceToBeUnassigned);
         return this.appearanceRepository.save(appearanceToBeUnassigned);
     }
@@ -131,4 +132,5 @@ public class UserService implements UserDetailsService {
                 .map(user -> new MyUserPrincipal(user)) // If found, wrap the returned user instance in a MyUserPrincipal instance.
                 .orElseThrow(() -> new UsernameNotFoundException("email " + email + " is not found.")); // Otherwise, throw an exception.
     }
+
 }

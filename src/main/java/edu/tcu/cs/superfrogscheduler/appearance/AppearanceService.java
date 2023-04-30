@@ -23,6 +23,7 @@ public class AppearanceService {
     }
 
     public Appearance save(Appearance newAppearance){
+        newAppearance.setStatus(AppearanceStatus.PENDING);
         return this.appearanceRepository.save(newAppearance);
     }
 
@@ -36,11 +37,25 @@ public class AppearanceService {
     }
 
     public Appearance update(Long requestId, Appearance update) {
+
         return this.appearanceRepository.findById(requestId)
                 .map(oldAppearance -> {
+                    if(!(oldAppearance.getAddress().equals(update.getAddress()))
+                            || !(oldAppearance.getEventDate()).equals(update.getEventDate())
+                            || !(oldAppearance.getStartTime().equals(update.getStartTime()))
+                            || !(oldAppearance.getEndTime().equals(update.getEndTime()))
+                            || (oldAppearance.getAppearanceType() != update.getAppearanceType())
+                            || !(oldAppearance.getTitle().equals(update.getTitle()))
+                            || !(oldAppearance.getOrgName().equals(update.getOrgName()))
+                            || (oldAppearance.isOnCampus() != update.isOnCampus())
+                            || !(oldAppearance.getInstructions().equals(update.getInstructions()))
+                            || !(oldAppearance.getExpenses().equals(update.getExpenses()))
+                            || !(oldAppearance.getOutsideOrg().equals(update.getOutsideOrg()))
+                            || !(oldAppearance.getDesc().equals(update.getDesc()))){
+                                oldAppearance.setStatus(AppearanceStatus.PENDING);
+                            }
                     oldAppearance.setAddress(update.getAddress());
                     oldAppearance.setDesc(update.getDesc());
-                    oldAppearance.setStatus(AppearanceStatus.PENDING);
                     oldAppearance.setAppearanceType(update.getAppearanceType());
                     oldAppearance.setExpenses(update.getExpenses());
                     oldAppearance.setMileage(update.getMileage());
@@ -132,7 +147,6 @@ public class AppearanceService {
         }
         return openApprovedAppearances;
     }
-
 
     public List<Appearance> searchAppearances(AppearanceQuery query){
         Long uId = -1L;

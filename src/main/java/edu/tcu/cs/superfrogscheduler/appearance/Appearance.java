@@ -62,7 +62,6 @@ public class Appearance implements Serializable{
     private LocalTime endTime;
 
     //status of the event
-    //either "PENDING",
     private AppearanceStatus status;
 
     //appearance description, customer supplied
