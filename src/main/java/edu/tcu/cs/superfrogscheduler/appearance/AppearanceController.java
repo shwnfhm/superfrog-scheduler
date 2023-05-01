@@ -152,7 +152,8 @@ public class AppearanceController {
         response.setHeader(headerKey, headerValue);
 
         List<Appearance> resultAppearances = this.appearanceService.searchAppearances(appearanceQuery);
-
+        List<Appearance> payrollResultAppearances = this.appearanceService.getPayrollAppearances();
+        resultAppearances.addAll(payrollResultAppearances);
         ExcelExporter excelExporter = new ExcelExporter(resultAppearances);
 
         excelExporter.export(response);

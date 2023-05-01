@@ -165,6 +165,10 @@ public class AppearanceService {
         return this.appearanceRepository.searchByCriteria(query, uId);
     }
 
+    public List<Appearance> getPayrollAppearances(){
+        return this.appearanceRepository.findByStatus(AppearanceStatus.PAYROLL);
+    }
+
     public Appearance submitToPayroll(Long requestId){
         return this.appearanceRepository.findById(requestId)
                 .map(oldAppearance -> {
