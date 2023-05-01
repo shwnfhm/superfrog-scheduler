@@ -1,5 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.payment;
 
+import edu.tcu.cs.superfrogscheduler.appearance.AppearanceService;
 import edu.tcu.cs.superfrogscheduler.payment.dto.RequestIds;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
@@ -15,9 +16,11 @@ import java.util.List;
 public class PaymentController {
     private PaymentService paymentService;
 
+    private AppearanceService appearanceService;
 
-    public PaymentController(PaymentService paymentService) {
+    public PaymentController(PaymentService paymentService, AppearanceService appearanceService) {
         this.paymentService = paymentService;
+        this.appearanceService = appearanceService;
     }
 
     @PostMapping("/payment-forms")
@@ -28,6 +31,9 @@ public class PaymentController {
 
         List<PaymentForm> paymentForms = this.paymentService.generatePaymentForms(selectedIds, paymentPeriod);
 
+        for(int i = 0; i<selectedIds.size(); i++){
+            this.appearanceService.submitToPayroll(selectedIds.get(i));
+        }
         return new Result(true, StatusCode.SUCCESS, "Payment forms are generated successfully.", paymentForms);
     }
 }

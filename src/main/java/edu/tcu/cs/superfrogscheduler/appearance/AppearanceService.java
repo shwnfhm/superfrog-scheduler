@@ -165,6 +165,14 @@ public class AppearanceService {
         return this.appearanceRepository.searchByCriteria(query, uId);
     }
 
+    public Appearance submitToPayroll(Long requestId){
+        return this.appearanceRepository.findById(requestId)
+                .map(oldAppearance -> {
+                    oldAppearance.setStatus(AppearanceStatus.PAYROLL);
+                    return this.appearanceRepository.save(oldAppearance);
+                })
+                .orElseThrow(() -> new ObjectNotFoundException("appearance", requestId));
+    }
 
 
 }
