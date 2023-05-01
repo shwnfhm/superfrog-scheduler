@@ -79,6 +79,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/**").permitAll() // Customer can edit appearance request information
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/login").permitAll() // Anyone can login
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/payment/payment-forms").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can generate payment forms
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/payment/payment-forms/pdf").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can generate payment forms
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/approvals/open").hasAuthority("ROLE_SUPERFROG") // Superfrogs can get open approved appearances
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG") // Superfrog can get his/her own account information
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG") // Superfrog can edit his/her own account
