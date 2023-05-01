@@ -15,14 +15,11 @@ public class DBDataInitializer implements CommandLineRunner {
 
     private final UserService userService;
 
-    private final AppearanceService appearanceService;
-
     private final AppearanceRepository appearanceRepository;
 
-    public DBDataInitializer(UserService userService, AppearanceRepository appearanceRepository, AppearanceService appearanceService) {
+    public DBDataInitializer(UserService userService, AppearanceRepository appearanceRepository) {
         this.userService = userService;
         this.appearanceRepository = appearanceRepository;
-        this.appearanceService = appearanceService;
     }
 
     @Override
@@ -43,7 +40,7 @@ public class DBDataInitializer implements CommandLineRunner {
         User u1 = new User();
         u1.setEmail("kendallroy@waystar.com");
         u1.setRoles("SUPERFROG");
-        u1.setPassword("superfrog");
+        u1.setPassword("superfrogswag");
         u1.setActive(true);
         u1.setInternational(false);
         u1.setFirstName("Kendall");
@@ -52,6 +49,19 @@ public class DBDataInitializer implements CommandLineRunner {
         u1.setPhoneNumber("4697672085");
         u1.setAddress("123 Waystar Dr");
         this.userService.save(u1);
+
+        User u2 = new User();
+        u2.setEmail("barryberkman@hbo.com");
+        u2.setRoles("SUPERFROG");
+        u2.setPassword("superfrogswag");
+        u2.setActive(false);
+        u2.setInternational(false);
+        u2.setFirstName("Barry");
+        u2.setLastName("Berkman");
+        u2.setPaymentPreference(PaymentPreference.MAILCHECK);
+        u2.setPhoneNumber("8176751210");
+        u2.setAddress("123 Sepulveda Dr");
+        this.userService.save(u2);
 
         Appearance a1 = new Appearance();
         a1.setReqFirstName("Logan");
@@ -118,6 +128,7 @@ public class DBDataInitializer implements CommandLineRunner {
         a3.setAssignedId(u1.getId());
         a3.setAssignedName(u1.getFirstName() + " " + u1.getLastName());
         this.appearanceRepository.save(a3);
+        this.userService.assign(a3.getRequestId(), u1.getId());
 
         Appearance a4 = new Appearance();
         a4.setReqFirstName("Connor");
@@ -129,7 +140,7 @@ public class DBDataInitializer implements CommandLineRunner {
         a4.setEventDate(LocalDate.parse("2023-12-21"));
         a4.setStartTime(LocalTime.parse("17:23:00"));
         a4.setEndTime(LocalTime.parse("19:23:00"));
-        a4.setDesc("This is for a funera");
+        a4.setDesc("This is for a funeral");
         a4.setOnCampus(false);
         a4.setMileage(55.0);
         a4.setOrgName("Waystar Royco");
@@ -142,5 +153,49 @@ public class DBDataInitializer implements CommandLineRunner {
         a4.setAssignedId(u1.getId());
         a4.setAssignedName(u1.getFirstName() + " " + u1.getLastName());
         this.appearanceRepository.save(a4);
+        this.userService.assign(a4.getRequestId(), u1.getId());
+        this.userService.completeAppearance(a4.getRequestId());
+
+        Appearance a5 = new Appearance();
+        a5.setReqFirstName("Gerri");
+        a5.setReqLastName("Kellman");
+        a5.setAddress("123 Kellman Way");
+        a5.setReqPhoneNumber("8171542857");
+        a5.setReqEmail("gerrikellman@waystar.com");
+        a5.setTitle("Company Brunch");
+        a5.setEventDate(LocalDate.parse("2023-12-22"));
+        a5.setStartTime(LocalTime.parse("17:23:00"));
+        a5.setEndTime(LocalTime.parse("19:23:00"));
+        a5.setDesc("This is for a brunch");
+        a5.setOnCampus(true);
+        a5.setMileage(1.0);
+        a5.setOrgName("Waystar Royco");
+        a5.setInstructions("there are none");
+        a5.setExpenses("none");
+        a5.setOutsideOrg("no outside organizations");
+        a5.setStatus(AppearanceStatus.PENDING);
+        a5.setAppearanceType(AppearanceType.PRIVATE);
+        this.appearanceRepository.save(a5);
+
+        Appearance a6 = new Appearance();
+        a6.setReqFirstName("Tom");
+        a6.setReqLastName("Wambsgams");
+        a6.setAddress("123 Froggy Way");
+        a6.setReqPhoneNumber("8174642817");
+        a6.setReqEmail("tomw@waystar.com");
+        a6.setTitle("Bachelor Party");
+        a6.setEventDate(LocalDate.parse("2023-12-20"));
+        a6.setStartTime(LocalTime.parse("17:23:00"));
+        a6.setEndTime(LocalTime.parse("19:23:00"));
+        a6.setDesc("This is for a bachelor party");
+        a6.setOnCampus(false);
+        a6.setMileage(45.0);
+        a6.setOrgName("Waystar Royco");
+        a6.setInstructions("there are none");
+        a6.setExpenses("none");
+        a6.setOutsideOrg("no outside organizations");
+        a6.setStatus(AppearanceStatus.APPROVED);
+        a6.setAppearanceType(AppearanceType.PRIVATE);
+        this.appearanceRepository.save(a6);
     }
 }
