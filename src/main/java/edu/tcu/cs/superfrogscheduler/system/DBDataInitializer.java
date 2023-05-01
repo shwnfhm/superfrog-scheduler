@@ -17,9 +17,12 @@ public class DBDataInitializer implements CommandLineRunner {
 
     private final AppearanceRepository appearanceRepository;
 
-    public DBDataInitializer(UserService userService, AppearanceRepository appearanceRepository) {
+    private final AppearanceService appearanceService;
+
+    public DBDataInitializer(UserService userService, AppearanceService appearanceService, AppearanceRepository appearanceRepository) {
         this.userService = userService;
         this.appearanceRepository = appearanceRepository;
+        this.appearanceService = appearanceService;
     }
 
     @Override
@@ -62,6 +65,19 @@ public class DBDataInitializer implements CommandLineRunner {
         u2.setPhoneNumber("8176751210");
         u2.setAddress("123 Sepulveda Dr");
         this.userService.save(u2);
+
+        User u3 = new User();
+        u3.setEmail("walterwhite@gmail.com");
+        u3.setRoles("SUPERFROG");
+        u3.setPassword("superfrogswag");
+        u3.setActive(true);
+        u3.setInternational(false);
+        u3.setFirstName("Walter");
+        u3.setLastName("White");
+        u3.setPaymentPreference(PaymentPreference.MAILCHECK);
+        u3.setPhoneNumber("8176761210");
+        u3.setAddress("3708 Negra Arroyo Lane");
+        this.userService.save(u3);
 
         Appearance a1 = new Appearance();
         a1.setReqFirstName("Logan");
@@ -155,6 +171,7 @@ public class DBDataInitializer implements CommandLineRunner {
         this.appearanceRepository.save(a4);
         this.userService.assign(a4.getRequestId(), u1.getId());
         this.userService.completeAppearance(a4.getRequestId());
+        this.appearanceService.complete(a4.getRequestId());
 
         Appearance a5 = new Appearance();
         a5.setReqFirstName("Gerri");
@@ -197,5 +214,147 @@ public class DBDataInitializer implements CommandLineRunner {
         a6.setStatus(AppearanceStatus.APPROVED);
         a6.setAppearanceType(AppearanceType.PRIVATE);
         this.appearanceRepository.save(a6);
+
+        Appearance a7 = new Appearance();
+        a7.setReqFirstName("Jim");
+        a7.setReqLastName("Moss");
+        a7.setAddress("123 Mossy Dr");
+        a7.setReqPhoneNumber("8174642217");
+        a7.setReqEmail("jimmoss@hbo.com");
+        a7.setTitle("Police Brunch");
+        a7.setEventDate(LocalDate.parse("2023-11-20"));
+        a7.setStartTime(LocalTime.parse("17:23:00"));
+        a7.setEndTime(LocalTime.parse("19:23:00"));
+        a7.setDesc("This is for a police brunch");
+        a7.setOnCampus(false);
+        a7.setMileage(25.0);
+        a7.setOrgName("FYPD");
+        a7.setInstructions("there are none");
+        a7.setExpenses("none");
+        a7.setOutsideOrg("no outside organizations");
+        a7.setStatus(AppearanceStatus.APPROVED);
+        a7.setAppearanceType(AppearanceType.PRIVATE);
+        this.appearanceRepository.save(a7);
+
+        Appearance a8 = new Appearance();
+        a8.setReqFirstName("Sally");
+        a8.setReqLastName("Reed");
+        a8.setAddress("123 Reed Dr");
+        a8.setReqPhoneNumber("8174642887");
+        a8.setReqEmail("sallyreed@waystar.com");
+        a8.setTitle("Acting Class");
+        a8.setEventDate(LocalDate.parse("2023-11-19"));
+        a8.setStartTime(LocalTime.parse("17:23:00"));
+        a8.setEndTime(LocalTime.parse("19:23:00"));
+        a8.setDesc("This is for an acting class");
+        a8.setOnCampus(false);
+        a8.setMileage(15.0);
+        a8.setOrgName("Acting School");
+        a8.setInstructions("there are none");
+        a8.setExpenses("none");
+        a8.setOutsideOrg("no outside organizations");
+        a8.setStatus(AppearanceStatus.PENDING);
+        a8.setAppearanceType(AppearanceType.PRIVATE);
+        this.appearanceRepository.save(a8);
+
+        Appearance a9 = new Appearance();
+        a9.setReqFirstName("Gene");
+        a9.setReqLastName("Cousineau");
+        a9.setAddress("123 Cousineau Ave");
+        a9.setReqPhoneNumber("8174642818");
+        a9.setReqEmail("genem@hbo.com");
+        a9.setTitle("Filming Wrap Party");
+        a9.setEventDate(LocalDate.parse("2023-10-20"));
+        a9.setStartTime(LocalTime.parse("17:23:00"));
+        a9.setEndTime(LocalTime.parse("19:23:00"));
+        a9.setDesc("This is for an filming wrap party");
+        a9.setOnCampus(false);
+        a9.setMileage(45.0);
+        a9.setOrgName("HBO");
+        a9.setInstructions("there are none");
+        a9.setExpenses("none");
+        a9.setOutsideOrg("no outside organizations");
+        a9.setStatus(AppearanceStatus.APPROVED);
+        a9.setAppearanceType(AppearanceType.PRIVATE);
+        this.appearanceRepository.save(a9);
+
+        Appearance a10 = new Appearance();
+        a10.setReqFirstName("Monrow");
+        a10.setReqLastName("Fuches");
+        a10.setAddress("123 San Quentin Dr");
+        a10.setReqPhoneNumber("8174442817");
+        a10.setReqEmail("m.fuches@hbo.com");
+        a10.setTitle("Prison Party");
+        a10.setEventDate(LocalDate.parse("2023-11-10"));
+        a10.setStartTime(LocalTime.parse("17:23:00"));
+        a10.setEndTime(LocalTime.parse("19:23:00"));
+        a10.setDesc("This is for a prison party");
+        a10.setOnCampus(false);
+        a10.setMileage(45.0);
+        a10.setOrgName("Federal Prison");
+        a10.setInstructions("there are none");
+        a10.setExpenses("none");
+        a10.setOutsideOrg("no outside organizations");
+        a10.setStatus(AppearanceStatus.ASSIGNED);
+        a10.setAppearanceType(AppearanceType.PRIVATE);
+        a10.setAssignedSuperFrog(u1);
+        a10.setAssignedId(u1.getId());
+        a10.setAssignedName(u1.getFirstName() + " " + u1.getLastName());
+        this.appearanceRepository.save(a10);
+        this.userService.assign(a10.getRequestId(), u1.getId());
+
+        Appearance a11 = new Appearance();
+        a11.setReqFirstName("Tony");
+        a11.setReqLastName("Soprano");
+        a11.setAddress("123 Soprano Dr");
+        a11.setReqPhoneNumber("8174642317");
+        a11.setReqEmail("tonysoprano@badabing.com");
+        a11.setTitle("Waste Management Event");
+        a11.setEventDate(LocalDate.parse("2023-12-08"));
+        a11.setStartTime(LocalTime.parse("17:23:00"));
+        a11.setEndTime(LocalTime.parse("19:23:00"));
+        a11.setDesc("This is for a bachelor party");
+        a11.setOnCampus(false);
+        a11.setMileage(45.0);
+        a11.setOrgName("Bada Bing");
+        a11.setInstructions("there are none");
+        a11.setExpenses("none");
+        a11.setOutsideOrg("no outside organizations");
+        a11.setStatus(AppearanceStatus.COMPLETED);
+        a11.setAppearanceType(AppearanceType.PRIVATE);
+        a11.setAssignedSuperFrog(u1);
+        a11.setAssignedId(u1.getId());
+        a11.setAssignedName(u1.getFirstName() + " " + u1.getLastName());
+        this.appearanceRepository.save(a11);
+        this.userService.assign(a11.getRequestId(), u3.getId());
+        this.userService.completeAppearance(a11.getRequestId());
+        this.appearanceService.complete(a11.getRequestId());
+
+        Appearance a12 = new Appearance();
+        a12.setReqFirstName("Gus");
+        a12.setReqLastName("Fring");
+        a12.setAddress("123 Pollo Hermanos Dr");
+        a12.setReqPhoneNumber("8173342317");
+        a12.setReqEmail("gusfring@polloshermanos.com");
+        a12.setTitle("Employee Party");
+        a12.setEventDate(LocalDate.parse("2023-12-08"));
+        a12.setStartTime(LocalTime.parse("17:23:00"));
+        a12.setEndTime(LocalTime.parse("19:23:00"));
+        a12.setDesc("This is for an employee party");
+        a12.setOnCampus(false);
+        a12.setMileage(45.0);
+        a12.setOrgName("Los Pollos Hermanos");
+        a12.setInstructions("there are none");
+        a12.setExpenses("none");
+        a12.setOutsideOrg("no outside organizations");
+        a12.setStatus(AppearanceStatus.COMPLETED);
+        a12.setAppearanceType(AppearanceType.PRIVATE);
+        a12.setAssignedSuperFrog(u1);
+        a12.setAssignedId(u1.getId());
+        a12.setAssignedName(u1.getFirstName() + " " + u1.getLastName());
+        this.appearanceRepository.save(a12);
+        this.userService.assign(a12.getRequestId(), u1.getId());
+        this.userService.completeAppearance(a12.getRequestId());
+        this.appearanceService.complete(a12.getRequestId());
     }
 }
