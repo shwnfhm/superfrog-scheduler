@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -79,12 +80,13 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Update Success", updatedUserDto);
     }
 
-    @DeleteMapping("/active/{userId}")
-    public Result deactivateUser(@PathVariable Long userId){
+    @PostMapping("/inactive/{userId}")
+    public Result deactivateUser(@PathVariable Long userId, @Valid @RequestBody Map<String, String> reason){
         User deactivatedUser = this.userService.deactivate(userId);
         UserDto deactivatedUserDto = this.userToUserDtoConverter.convert(deactivatedUser);
         emailService.sendEmail(deactivatedUser.getEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Account Deactivated", "Dear SuperFrog," + "\n" + "Your account has been deactivated\n"
+                + "The reason is: " + reason.get("message") + "\n"
         );
         return new Result(true, StatusCode.SUCCESS, "Deactivation Success", deactivatedUserDto);
     }

@@ -84,7 +84,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/me").hasAuthority("ROLE_SUPERFROG") // Superfrog can edit his/her own account
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can get Users
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/active/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can activate/deactivate users
-                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/active/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can activate/deactivate users
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/users/inactive/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can activate/deactivate users
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can add Superfrogs
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can pull up all users
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can edit any user's information
