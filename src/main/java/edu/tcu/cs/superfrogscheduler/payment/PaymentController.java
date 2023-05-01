@@ -7,10 +7,7 @@ import edu.tcu.cs.superfrogscheduler.payment.export.PDFExporter;
 import edu.tcu.cs.superfrogscheduler.system.Result;
 import edu.tcu.cs.superfrogscheduler.system.StatusCode;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -30,8 +27,13 @@ public class PaymentController {
         this.appearanceService = appearanceService;
     }
 
-    @PostMapping("/payment-forms/pdf")
-    public void generatePaymentFormsPdf(@RequestBody RequestIds requestIds, HttpServletResponse response) throws DocumentException, IOException {
+    @GetMapping("/payment-forms")
+    public Result getAllPaymentForms(){
+        return new Result(true, StatusCode.SUCCESS, "Get Payment Forms Successful", this.paymentService.getPaymentForms());
+    }
+
+    @PostMapping("/payment-forms")
+    public void generatePaymentForms(@RequestBody RequestIds requestIds, HttpServletResponse response) throws DocumentException, IOException {
         List<Long> selectedIds = requestIds.getRequestIds();
 
         Period paymentPeriod = requestIds.getPaymentPeriod();
@@ -41,6 +43,7 @@ public class PaymentController {
         for(int i = 0; i<selectedIds.size(); i++){
             this.appearanceService.submitToPayroll(selectedIds.get(i));
         }
+
         response.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
         String currentDateTime = dateFormat.format(new Date());
@@ -53,18 +56,4 @@ public class PaymentController {
         exporter.generate(response);
     }
 
-    @PostMapping("/payment-forms")
-    public Result generatePaymentForms(@RequestBody RequestIds requestIds){
-        List<Long> selectedIds = requestIds.getRequestIds();
-
-        Period paymentPeriod = requestIds.getPaymentPeriod();
-
-        List<PaymentForm> paymentForms = this.paymentService.generatePaymentForms(selectedIds, paymentPeriod);
-
-        for(int i = 0; i<selectedIds.size(); i++){
-            this.appearanceService.submitToPayroll(selectedIds.get(i));
-        }
-
-        return new Result(true, StatusCode.SUCCESS, "Payment forms are generated successfully.", paymentForms);
-    }
 }

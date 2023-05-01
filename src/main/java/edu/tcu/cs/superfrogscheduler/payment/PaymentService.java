@@ -41,6 +41,10 @@ public class PaymentService {
         return this.paymentFormRepository.saveAll(paymentForms);
     }
 
+    public List<PaymentForm> getPaymentForms(){
+        return this.paymentFormRepository.findAll();
+    }
+
     /**
      * Group the given requests by SuperFrogStudent who has finished this request.
      * The result is a Map<SuperFrogStudent, List<SuperFrogAppearanceRequest>>.

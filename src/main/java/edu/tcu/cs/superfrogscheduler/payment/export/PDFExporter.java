@@ -39,7 +39,7 @@ public class PDFExporter {
         // Adding the created paragraph in document
         document.add(paragraph);
 
-        // Creating a table of 3 columns
+        // Creating a table of 6 columns
         PdfPTable table = new PdfPTable(6);
 
         // Setting width of table, its columns and spacing
@@ -74,22 +74,22 @@ public class PDFExporter {
         cell.setPhrase(new Phrase("Amount", font));
         table.addCell(cell);
 
-        // Iterating over the list of students
+        // Iterating over the list of payment forms
         for (PaymentForm form : formList) {
-            // Adding student id
+
             table.addCell(String.valueOf(form.getFirstName()));
-            // Adding student name
+
             table.addCell(form.getLastName());
-            // Adding student section
+
             table.addCell(form.getStudentId().toString());
             table.addCell(form.getPaymentPeriod().getBeginDate().toString());
             table.addCell(form.getPaymentPeriod().getEndDate().toString());
             table.addCell(form.getAmount().toString());
         }
-        // Adding the created table to document
+
         document.add(table);
 
-        // Closing the document
+
         document.close();
 
     }
