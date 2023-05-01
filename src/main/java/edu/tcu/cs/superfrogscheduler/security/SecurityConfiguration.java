@@ -66,12 +66,12 @@ public class SecurityConfiguration {
                 // It is recommended to secure your application at the API endpoint level.
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances").permitAll() // Anyone can submit an appearance request
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/cancel/**").permitAll() // Customers can cancel their requests
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can get all appearances
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/approval/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can approve/reject requests
                         .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/appearances/approval/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can approve/reject requests
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can generate performance reports
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/complete/**").hasAuthority("ROLE_SUPERFROG") // Superfrogs need to be able to mark events as complete
-                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/cancel/**").permitAll() // Customers can cancel their requests
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/criteria").permitAll() // Not sure about this one.
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/criteria").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can search for users
                         .requestMatchers(HttpMethod.PUT, this.baseUrl + "/appearances/admin/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can change request details without changing status
