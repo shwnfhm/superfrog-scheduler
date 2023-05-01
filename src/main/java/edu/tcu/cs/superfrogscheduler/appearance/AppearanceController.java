@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -130,11 +131,12 @@ public class AppearanceController {
         return new Result(true, StatusCode.SUCCESS, "Approval Successful", approvedAppearance);
     }
 
-    @DeleteMapping("/approval/{requestId}")
-    public Result rejectRequest(@PathVariable Long requestId){
+    @PostMapping("/rejection/{requestId}")
+    public Result rejectRequest(@PathVariable Long requestId, @Valid @RequestBody Map<String, String> reason){
         Appearance rejectedAppearance = this.appearanceService.reject(requestId);
         emailService.sendEmail(rejectedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Request " + rejectedAppearance.getRequestId().toString() + " Rejected", "Dear Customer," + "\n" + "We regret to inform you that your SuperFrog appearance request (ID: " + rejectedAppearance.getRequestId().toString() + ") has been rejected. \n"
+                        + "The reason is for the rejection is: " + reason.get("message") + "\n"
                         + "We hope you will understand and thank you for your business\n");
         return new Result(true, StatusCode.SUCCESS, "Rejection Successful", rejectedAppearance);
     }
@@ -171,17 +173,19 @@ public class AppearanceController {
     }
 
     @PostMapping("/cancel/{requestId}")
-    public Result cancelRequest(@PathVariable Long requestId){
+    public Result cancelRequest(@PathVariable Long requestId, @Valid @RequestBody Map<String, String> reason){
         Appearance cancelledAppearance = this.appearanceService.cancel(requestId);
         if(cancelledAppearance.getAssignedSuperFrog() != null){
             emailService.sendEmail(cancelledAppearance.getAssignedSuperFrog().getEmail(),"superfrogschedulercite30363@gmail.com",
                     "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled","Dear Superfrog," + "\n" + "An existing appearance request (ID: " + cancelledAppearance.getRequestId().toString() + " has been cancelled. \n"
+                            + "The reason is for the cancellation is: " + reason.get("message") + "\n"
                             + "You have been unassigned from the event.");
             cancelledAppearance = this.userService.unassign(requestId);
         }
         AppearanceDto cancelledAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(cancelledAppearance);
         emailService.sendEmail(cancelledAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled", "Dear Customer," + "\n" + "Your SuperFrog appearance request has been cancelled. \n"
+                        + "The reason is for the cancellation is: " + reason.get("message") + "\n"
                         + "We apologize for any inconvenience and thank you for your business\n");
         emailService.sendEmail("superfrogschedulercite30363@gmail.com", "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Request " + cancelledAppearance.getRequestId().toString() + " Cancelled", "Dear Spirit Director," + "\n" + "The request with ID " + cancelledAppearance.getRequestId().toString() + " has been cancelled.\n");

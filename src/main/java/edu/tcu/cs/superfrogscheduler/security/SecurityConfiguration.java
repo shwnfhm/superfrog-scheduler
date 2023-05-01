@@ -69,7 +69,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/cancel/**").permitAll() // Customers can cancel their requests
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can get all appearances
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/approval/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can approve/reject requests
-                        .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/appearances/approval/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can approve/reject requests
+                        .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/rejection/**").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can approve/reject requests
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/excel").hasAuthority("ROLE_SPIRITDIRECTOR") // Only Spirit Director can generate performance reports
                         .requestMatchers(HttpMethod.POST, this.baseUrl + "/appearances/complete/**").hasAuthority("ROLE_SUPERFROG") // Superfrogs need to be able to mark events as complete
                         .requestMatchers(HttpMethod.GET, this.baseUrl + "/appearances/criteria").permitAll() // Not sure about this one.
