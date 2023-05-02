@@ -5,7 +5,6 @@ import com.lowagie.text.pdf.*;
 import edu.tcu.cs.superfrogscheduler.payment.PaymentForm;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import edu.tcu.cs.superfrogscheduler.user.PaymentPreference;
-import edu.tcu.cs.superfrogscheduler.user.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.*;
@@ -53,10 +52,6 @@ public class PDFExporter {
             stamper.close();
             reader.close();
             i++;
-            //PdfContentByte cb = writer.getDirectContent();
-            //PdfReader reader2 = new PdfReader(out.toByteArray());
-            //PdfImportedPage page = writer.getImportedPage(reader2, 1);
-            //document.newPage();
         }
         PDFMergerUtility obj = new PDFMergerUtility();
         obj.setDestinationFileName("finalforms.pdf");

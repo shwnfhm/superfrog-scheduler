@@ -11,6 +11,7 @@ public class Period {
     private LocalDate endDate;
 
     public Period() {
+
     }
 
     public Period(LocalDate beginDate, LocalDate endDate) {
