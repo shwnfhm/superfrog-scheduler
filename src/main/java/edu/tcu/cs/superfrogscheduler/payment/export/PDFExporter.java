@@ -29,12 +29,11 @@ public class PDFExporter {
             form.setField("Name", pForm.getFirstName() + " " + pForm.getLastName());
 
             String[] checkboxstates = form.getAppearanceStates("Check Box1");
-            String[] checkbox2states = form.getAppearanceStates("Check Box2");
             if(pForm.getPaymentPreference() == PaymentPreference.MAILCHECK) {
                 form.setField("Check Box1", checkboxstates[1]);
             }
             else{
-                form.setField("Check Box2", checkbox2states[1]);
+                form.setField("Check Box1", checkboxstates[0]);
             }
             String[] checkbox12states = form.getAppearanceStates("Check Box12");
             if(pForm.isInternational() == true){
