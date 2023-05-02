@@ -1,14 +1,15 @@
 package edu.tcu.cs.superfrogscheduler.payment.export;
 
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.CMYKColor;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.*;
 import edu.tcu.cs.superfrogscheduler.payment.PaymentForm;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import edu.tcu.cs.superfrogscheduler.user.PaymentPreference;
+import edu.tcu.cs.superfrogscheduler.user.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PDFExporter {
@@ -16,82 +17,55 @@ public class PDFExporter {
 
     public void generate(HttpServletResponse response) throws DocumentException, IOException {
 
-        // Creating the Object of Document
-        Document document = new Document(PageSize.A4);
+        int i = 0;
+        ArrayList<String> fileNames = new ArrayList<>();
+        for(PaymentForm pForm : formList) {
+            String filePath = new File("src/main/java/edu/tcu/cs/superfrogscheduler/payment/export/Honorarium_Request_Final.pdf").getAbsolutePath();
+            PdfReader reader = new PdfReader(filePath);
+            PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(String.format("PDF_File_%d.pdf",i)));
+            fileNames.add(String.format("PDF_File_%d.pdf", i));
+            AcroFields form = stamper.getAcroFields();
+            System.out.println(form.getAllFields());
+            form.setField("Name", pForm.getFirstName() + " " + pForm.getLastName());
 
-        // Getting instance of PdfWriter
-        PdfWriter.getInstance(document, response.getOutputStream());
+            String[] checkboxstates = form.getAppearanceStates("Check Box1");
+            String[] checkbox2states = form.getAppearanceStates("Check Box2");
+            if(pForm.getPaymentPreference() == PaymentPreference.MAILCHECK) {
+                form.setField("Check Box1", checkboxstates[1]);
+            }
+            else{
+                form.setField("Check Box2", checkbox2states[1]);
+            }
+            String[] checkbox12states = form.getAppearanceStates("Check Box12");
+            if(pForm.isInternational() == true){
+                form.setField("Check Box12", checkbox12states[1]);
+            }
+            else{
+                form.setField("Check Box12", checkbox12states[0]);
+            }
 
-        // Opening the created document to modify it
-        document.open();
-
-        // Creating font
-        // Setting font style and size
-        Font fontTiltle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-        fontTiltle.setSize(20);
-
-        // Creating paragraph
-        Paragraph paragraph = new Paragraph("Payment Forms", fontTiltle);
-
-        // Aligning the paragraph in document
-        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
-
-        // Adding the created paragraph in document
-        document.add(paragraph);
-
-        // Creating a table of 6 columns
-        PdfPTable table = new PdfPTable(6);
-
-        // Setting width of table, its columns and spacing
-        table.setWidthPercentage(100f);
-        table.setWidths(new int[] { 3, 3, 3, 3, 3, 3});
-        table.setSpacingBefore(5);
-
-        // Create Table Cells for table header
-        PdfPCell cell = new PdfPCell();
-
-        // Setting the background color and padding
-        cell.setBackgroundColor(CMYKColor.MAGENTA);
-        cell.setPadding(5);
-
-        // Creating font
-        // Setting font style and size
-        Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-        font.setColor(CMYKColor.WHITE);
-
-        // Adding headings in the created table cell/ header
-        // Adding Cell to table
-        cell.setPhrase(new Phrase("First Name", font));
-        table.addCell(cell);
-        cell.setPhrase(new Phrase("Last Name", font));
-        table.addCell(cell);
-        cell.setPhrase(new Phrase("Superfrog ID", font));
-        table.addCell(cell);
-        cell.setPhrase(new Phrase("Payment Period Start", font));
-        table.addCell(cell);
-        cell.setPhrase(new Phrase("Payment Period End", font));
-        table.addCell(cell);
-        cell.setPhrase(new Phrase("Amount", font));
-        table.addCell(cell);
-
-        // Iterating over the list of payment forms
-        for (PaymentForm form : formList) {
-
-            table.addCell(String.valueOf(form.getFirstName()));
-
-            table.addCell(form.getLastName());
-
-            table.addCell(form.getStudentId().toString());
-            table.addCell(form.getPaymentPeriod().getBeginDate().toString());
-            table.addCell(form.getPaymentPeriod().getEndDate().toString());
-            table.addCell(form.getAmount().toString());
+            form.setField("Amount", pForm.getAmount().toString());
+            form.setField("Permanentaddress 2", pForm.getAddress());
+            stamper.setFormFlattening(true);
+            stamper.close();
+            reader.close();
+            i++;
+            //PdfContentByte cb = writer.getDirectContent();
+            //PdfReader reader2 = new PdfReader(out.toByteArray());
+            //PdfImportedPage page = writer.getImportedPage(reader2, 1);
+            //document.newPage();
         }
-
-        document.add(table);
-
-
-        document.close();
-
+        PDFMergerUtility obj = new PDFMergerUtility();
+        obj.setDestinationFileName("finalforms.pdf");
+        for(int j = 0; j<fileNames.size(); j++){
+            obj.addSource(new File(fileNames.get(j)));
+        }
+        obj.mergeDocuments();
+        FileInputStream fileInputStream = new FileInputStream("finalforms.pdf");
+        int bytes;
+        while((bytes = fileInputStream.read()) != -1){
+            response.getOutputStream().write(bytes);
+        }
     }
 
     public void setFormList(List<PaymentForm> paymentForms) {

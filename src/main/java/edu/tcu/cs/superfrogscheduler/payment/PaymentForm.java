@@ -1,5 +1,6 @@
 package edu.tcu.cs.superfrogscheduler.payment;
 
+import edu.tcu.cs.superfrogscheduler.user.PaymentPreference;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
@@ -26,6 +27,12 @@ public class PaymentForm {
 
     private Long studentId;
 
+    private PaymentPreference paymentPreference;
+
+    private boolean international;
+
+    private String address;
+
     @Embedded
     private Period paymentPeriod;
 
@@ -36,12 +43,15 @@ public class PaymentForm {
 
     }
 
-    public PaymentForm(String firstName, String lastName, Long studentId, Period paymentPeriod, BigDecimal amount) {
+    public PaymentForm(String firstName, String lastName, Long studentId, Period paymentPeriod, BigDecimal amount, PaymentPreference paymentPreference, String address, boolean international) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.studentId = studentId;
         this.paymentPeriod = paymentPeriod;
+        this.paymentPreference = paymentPreference;
+        this.address = address;
         this.amount = amount;
+        this.international = international;
     }
 
     public String getFirstName() {
@@ -58,6 +68,17 @@ public class PaymentForm {
 
     public Period getPaymentPeriod() {
         return paymentPeriod;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public PaymentPreference getPaymentPreference() {
+        return this.paymentPreference;
+    }
+    public boolean isInternational() {
+        return this.international;
     }
 
     public BigDecimal getAmount() {

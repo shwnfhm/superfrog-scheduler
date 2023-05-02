@@ -107,7 +107,7 @@ public class User implements Serializable {
 
         BigDecimal totalAmount = totalAppearanceFee.add(transportationFee);
 
-        return new PaymentForm(this.firstName, this.lastName, this.id, paymentPeriod, totalAmount);
+        return new PaymentForm(this.firstName, this.lastName, this.id, paymentPeriod, totalAmount, this.paymentPreference, this.address, this.international);
     }
 
     public void setId(Long id) {
