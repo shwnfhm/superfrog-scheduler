@@ -1,6 +1,7 @@
 package edu.tcu.cs.superfrogscheduler.appearance.export;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import edu.tcu.cs.superfrogscheduler.appearance.Appearance;
@@ -35,13 +36,17 @@ public class ExcelExporter {
         font.setBold(true);
         font.setFontHeight(16);
         style.setFont(font);
-
-        createCell(row, 0, "Request ID", style);
-        createCell(row, 1, "Appearance Title", style);
-        createCell(row, 2, "Appearance Type", style);
-        createCell(row, 3, "Request E-mail", style);
-        createCell(row, 4, "Superfrog Full Name", style);
-        createCell(row, 5, "Superfrog Email", style);
+        sheet.setColumnWidth(0, 1100);
+        sheet.setColumnWidth(1, 1100);
+        sheet.setColumnWidth(4, 1200);
+        sheet.setColumnWidth(6, 1100);
+        createCell(row, 0, "Superfrog Full Name", style);
+        createCell(row, 1, "Superfrog Email", style);
+        createCell(row, 2, "Appearance Date", style);
+        createCell(row, 3, "Request ID", style);
+        createCell(row, 4, "Appearance Title", style);
+        createCell(row, 5, "Appearance Type", style);
+        createCell(row, 6, "Request E-mail", style);
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
@@ -51,7 +56,7 @@ public class ExcelExporter {
             cell.setCellValue((Integer) value);
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
-        }else {
+        } else {
             cell.setCellValue((String) value);
         }
         cell.setCellStyle(style);
@@ -69,16 +74,18 @@ public class ExcelExporter {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
 
+            createCell(row, columnCount++, appearance.getAssignedSuperFrog().getFirstName() + " " + appearance.getAssignedSuperFrog().getLastName(), style);
+            createCell(row, columnCount++, appearance.getAssignedSuperFrog().getEmail(), style);
+            createCell(row, columnCount++, appearance.getEventDate().toString(), style);
             createCell(row, columnCount++, appearance.getRequestId().toString(), style);
             createCell(row, columnCount++, appearance.getTitle(), style);
             createCell(row, columnCount++, appearance.getAppearanceType().toString(), style);
             createCell(row, columnCount++, appearance.getReqEmail(), style);
-            createCell(row, columnCount++, appearance.getAssignedSuperFrog().getFirstName() + " " + appearance.getAssignedSuperFrog().getLastName(), style);
-            createCell(row, columnCount++, appearance.getAssignedSuperFrog().getEmail(), style);
         }
     }
 
     public void export(HttpServletResponse response) throws IOException {
+        Collections.sort(this.listAppearances);
         writeHeaderLine();
         writeDataLines();
 

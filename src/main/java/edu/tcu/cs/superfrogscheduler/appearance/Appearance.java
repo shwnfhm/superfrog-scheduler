@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "appearances")
-public class Appearance implements Serializable{
+public class Appearance implements Serializable, Comparable<Appearance>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long requestId;
@@ -273,5 +273,10 @@ public class Appearance implements Serializable{
 
     public void setAssignedId(Long assignedId) {
         this.assignedId = assignedId;
+    }
+
+    @Override
+    public int compareTo(Appearance o) {
+        return this.assignedName.compareTo(o.getAssignedName());
     }
 }
