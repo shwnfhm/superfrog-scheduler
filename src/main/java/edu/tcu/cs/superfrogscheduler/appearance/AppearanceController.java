@@ -118,6 +118,10 @@ public class AppearanceController {
 
     @PostMapping("/approval/{requestId}")
     public Result approveRequest(@PathVariable Long requestId){
+        Appearance oldAppearance = this.appearanceService.findById(requestId);
+        if(oldAppearance.getStatus() != AppearanceStatus.CANCELLED && oldAppearance.getStatus() != AppearanceStatus.PENDING){
+            return new Result(true, StatusCode.SUCCESS, "Already Approved", oldAppearance);
+        }
         Appearance approvedAppearance = this.appearanceService.approve(requestId);
         emailService.sendEmail(approvedAppearance.getReqEmail(), "superfrogschedulercite30363@gmail.com",
                 "SuperFrog Request " + approvedAppearance.getRequestId().toString() + " Approved!", "Dear Customer," + "\n" + "We are happy to inform you that your SuperFrog appearance request (ID: " + approvedAppearance.getRequestId().toString() + ") has been approved! \n"
@@ -158,6 +162,10 @@ public class AppearanceController {
 
     @PostMapping("/complete/{requestId}")
     public Result completeAppearance(@PathVariable Long requestId){
+        Appearance oldAppearance = this.appearanceService.findById(requestId);
+        if(oldAppearance.getStatus() == AppearanceStatus.COMPLETED || oldAppearance.getStatus() == AppearanceStatus.PAYROLL){
+            return new Result(true, StatusCode.SUCCESS, "Already Completed", oldAppearance);
+        }
         Appearance completedAppearance = this.appearanceService.complete(requestId);
         this.userService.completeAppearance(requestId);
         AppearanceDto completedAppearanceDto = this.appearanceToAppearanceDtoConverter.convert(completedAppearance);
