@@ -43,9 +43,13 @@ public class PDFExporter {
             else{
                 form.setField("Check Box12", checkbox12states[0]);
             }
-
+            form.setField("Check Box3", form.getAppearanceStates("Check Box3")[1]);
             form.setField("Amount", pForm.getAmount().toString());
             form.setField("Permanentaddress 2", pForm.getAddress());
+            form.setField("Permanentaddress 1", "Fort Worth, TX 76129");
+            form.setField("1 Attach a copy of written agreement or explain the nature and DATE OF SERVICES performed 1", "For SuperFrog appearances made between the dates "
+                    + pForm.getPaymentPeriod().getBeginDate().toString() + " and "
+                    + pForm.getPaymentPeriod().getEndDate().toString() + "." );
             stamper.setFormFlattening(true);
             stamper.close();
             reader.close();
