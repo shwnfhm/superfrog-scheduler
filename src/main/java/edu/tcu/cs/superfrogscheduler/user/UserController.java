@@ -104,9 +104,6 @@ public class UserController {
     @PostMapping("/assignments/{userId}/{requestId}")
     public Result assignUserToAppearance(@PathVariable Long requestId, @PathVariable Long userId){
         Appearance oldAppearance = this.appearanceService.findById(requestId);
-        if(oldAppearance.getStatus() == AppearanceStatus.PENDING || oldAppearance.getStatus() == AppearanceStatus.COMPLETED || oldAppearance.getStatus() == AppearanceStatus.PAYROLL || oldAppearance.getStatus() == AppearanceStatus.CANCELLED){
-            return new Result(false, StatusCode.UNAUTHORIZED, "Cannot assign to this event", oldAppearance);
-        }
         if(oldAppearance.getStatus() == AppearanceStatus.ASSIGNED){
             emailService.sendEmail(oldAppearance.getAssignedSuperFrog().getEmail(), "superfrogschedulercite30363@gmail.com",
                     "Appearance ID " + oldAppearance.getRequestId().toString() + " Unassigned", "Dear Superfrog," + "\n" + "You have been unassigned from appearance " + oldAppearance.getRequestId().toString() + " \n"
@@ -128,9 +125,6 @@ public class UserController {
     @DeleteMapping("/assignments/{userId}/{requestId}")
     public Result removeUserFromAppearance(@PathVariable Long requestId, @PathVariable Long userId){
         Appearance oldAppearance = this.appearanceService.findById(requestId);
-        if(oldAppearance.getStatus() == AppearanceStatus.PENDING || oldAppearance.getStatus() == AppearanceStatus.COMPLETED || oldAppearance.getStatus() == AppearanceStatus.PAYROLL || oldAppearance.getStatus() == AppearanceStatus.CANCELLED){
-            return new Result(false, StatusCode.UNAUTHORIZED, "Cannot assign to this event", oldAppearance);
-        }
         emailService.sendEmail(oldAppearance.getAssignedSuperFrog().getEmail(), "superfrogschedulercite30363@gmail.com",
                 "Appearance ID " + oldAppearance.getRequestId().toString() + " Unassigned", "Dear SuperFrog," + "\n" + "You have been unassigned from appearance " + oldAppearance.getRequestId().toString() + " .\n"
                         + "We apologize for any inconvenience\n");
